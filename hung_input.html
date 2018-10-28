@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script charset="UTF-8" src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.1.6/d3.min.js"></script>
+	<script charset="utf-8" src="jquery-3.3.1.min.js"></script>
+	<script charset="utf-8" src="hung_input.js"></script>
+	<style>
+		h2.Apatite_header{
+			color: FireBrick;
+			text-align: center;
+		}
+		.Instruction{
+			border: 1.5px solid black;
+			display: inline-block;
+			padding: 10px;
+			width: 1000px;
+		}
+		.col{
+			float: left;
+			width: 500px;
+		}
+		.input:after{
+		    content: "";
+		    display: table;
+		    clear: both;
+		}
+		label{
+		    display: inline-block;
+		    clear: left;
+		    width: 50px;
+		}
+		input{
+			width: 38px;
+			border-radius: 5px;
+			text-align: right;
+			padding-right: 2px; 
+		}
+		button.Compute{
+			font-size: 20px;
+			background: #3e54a5;
+			padding: 5px;
+			width: 110px;
+			color: white;
+		}
+		button.Calculate{
+			font-size: 20px;
+			background: #bf9fc7;
+			padding: 5px;
+			width: 110px;
+			color: white;
+		}
+		sup{
+			font-size: 10px;
+		}
+		#error{
+			color: red;
+		}
+		/*Ternary Plot*/
+		a{
+			font-family: sans-serif;
+			color: #DB7365;
+			padding: 0.3rem;
+		}
+		a:hover{
+			background-color: #DB7365;
+			color: #fff1e0;
+		}
+		line.tick {
+			stroke-width: 0.5;
+		}
+
+		line.minor-tick {
+			stroke-width: 1;
+			stroke-opacity:0.1;
+		}
+
+		.a-axis{
+			stroke: #333;
+		}
+
+		.b-axis{
+			stroke: #333;
+		}
+
+		.c-axis{
+			stroke: #333;
+		}
+
+		.axis-title{
+			font-family: sans-serif;
+			font-size: 1.5rem;
+		}
+
+		text.tick-text {
+			font-family: sans-serif;
+			font-weight: lighter;
+			font-size: 1rem;
+			fill: #333;
+			stroke:none;
+		}
+
+		circle {
+			fill: #fff1e0;
+			stroke: #DB7365;
+			stroke-width: 2px;
+		}
+	</style>
+	<title>Apatite Thermodynamic Model</title>
+</head>
+<body style="padding-left:10px;">
+	<h2 class="Apatite_header"><b>APATITE THERMODYNAMIC MODEL<br>FOR CALCULATING VOLATILE ABUNDANCES IN MAGMAS</b></h2>
+	<div class="Information"><small>
+		Calculation specified in this page are based on thermodynamic model of:<br>
+		<i>Li W and Costa F (2018)...GCA...<br>doi:....</i><p>
+	</small></div>
+	<div class="Instruction">
+		<b>Instruction:<br></b>
+		This mode aims to calculate volatile abundances in magmas using volatile compositions of apatite. i.e: F, Cl, H<sub>2</sub>O, and CO<sub>2</sub> (optional).<br>
+		The inputs of apatite compositions are reccommended to be measured directly.<br>
+		Presures and Temperatures are also required for calculation where T plays larger role than P to get volatile estimates of low uncertainties.<br>
+		Equation for calculating exchange coefficient (K<sub>D</sub>) and activity coefficient (γ) were described in paper shown above.
+	</div><br>
+	<b style="color:red"><br>Now you can enter inputs below:<br></b>
+	<i>Box marked as "required" need to be fill in for calculation, whereas those marked as "optional" can be left as empty if their placeholders are unknown.</i><p>
+	<h3>Calculating chemical formula of apatite:</h3>
+	<div class="input">
+		<div class="col" style="width:20%;padding-left:1%">
+			<i style="color:red">Required:</i>
+			<p>
+			<small>
+				<b><label>CaO</label><input id="cao" type="text" placeholder="53.81">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label>P<sub>2</sub>O<sub>5</sub></label><input id="p2o5" type="text" placeholder="40.44">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label>F</label><input id="f" type="text" placeholder="3.53">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label>Cl</label><input id="cl" type="text" placeholder="0.40">&nbsp;wt.&nbsp;%&nbsp;</b><p>
+			</small>
+				<i>Optional:</i>
+			<small>
+				<p>
+				<b><label>H<sub>2</sub>O<sup>*</sup></label><input id="h2o" type="text" placeholder="0.01">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label>CO<sub>2</sub></label><input id="co2" type="text" placeholder="0.02">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label>SO<sub>3</sub></label><input id="so3" type="text" placeholder="0.28">&nbsp;wt.&nbsp;%&nbsp;</b>
+			</small>
+		</div>
+		<div class="col" style="width:79%">
+			<i>Optional:</i>
+			<p>
+			<small>
+				<b><label>SiO<sub>2</sub></label><input id="sio2" type="text" placeholder="0.42">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label>Na<sub>2</sub>O</label><input id="na2o" type="text" placeholder="0.12">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label>MgO</label><input id="mgo" type="text" placeholder="0.24">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label>Al<sub>2</sub>O<sub>3</sub></label><input id="al2o3" type="text" placeholder="0.12">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label>MnO</label><input id="mno" type="text" placeholder="0.24">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label>FeO</label><input id="feo" type="text" placeholder="0.30">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label>Fe<sub>2</sub>O<sub>3</sub></label><input id="fe2o3" type="text" placeholder="0.10">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label>Ce<sub>2</sub>O<sub>3</sub></label><input id="ce2o3" type="text" placeholder="0.20">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label>SrO</label><input id="sro" type="text" placeholder="0.20">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label>BaO</label><input id="bao" type="text" placeholder="0.06">&nbsp;wt.&nbsp;%&nbsp;</b>
+			</small>
+		</div>
+		<p><small><i>
+			<sup>*</sup>If H<sub>2</sub>O in apatite was not directly measured, leave this box empty, so that our model will calculate it based on stoichiometry, assuming that only F, Cl and OH occupy the anion site.
+		</i></small></p>
+	</div>
+	<div class="input" style="border:1.5px solid skyblue;padding:10px;width:1000px;display:inline-block;">
+		<h3>Calculating volatile concentration in magmas:</h3>
+		<p>
+		<i>P-T conditions&ensp;<span style="color:red">(Required)</span></i>
+		<p>
+		<small class="p_t">
+			<b><label>T</label><input id="t" type="text" placeholder="950">&nbsp;<sup>o</sup>C&emsp;&ensp;&nbsp;</b><br>
+			<b><label>P</label><input id="p" type="text" placeholder="200" required>&nbsp;MPa&ensp;&nbsp;</b><p>
+		</small>
+		<i>Volatiles in magmas<sup>2</sup> constrained using other methods (To calculate H<sub>2</sub>O in magmas, you need to fill in at least one boxes below)</i>
+		<small class="volatie">
+			<div class="col" style="width:20%">
+				<b><label>F</label><input id="f2" type="text" placeholder="1000">&nbsp;ppm&emsp;</b><br>
+				<b><label>Cl</label><input id="cl2" type="text" placeholder="2500">&nbsp;ppm&emsp;</b>
+			</div>
+			<div class="col" style="width:65%">
+				<b><label>H<sub>2</sub>O</label><input id="h2o2" type="text" placeholder="4.0">&nbsp;wt.&nbsp;%&ensp;</b><br>
+				<b><label>CO<sub>2</sub></label><input id="co22" type="text" placeholder="500">&nbsp;ppm&emsp;</b>
+			</div>
+			<div class="col" style="width:15%">
+				<button class="Compute"><i><b>Compute!</b></i></button>
+			</div>
+		</small>
+	</div>
+	<p>
+	<div style="border:1.5px solid pink;padding:10px;width:1000px;display:inline-block;">
+		<div id="plot" style="left:400px;position:absolute;"></div>
+		<button class="Calculate"><i><b>Calculate!</b></i></button><p>
+		<span>Chemical formula: Ca<sub>10</sub>(PO<sub>4</sub>)<sub>6</sub>X<sub>2</sub></span><br>
+		<p>
+		<div class="col" style="width:20%">
+			<b><label style="width:70px">Ca</label><input id="xf" type="text" placeholder="0.02"></b><br>
+			<b><label style="width:70px">P</label><input id="xf" type="text" placeholder="0.02"></b><br>
+			<b><label style="width:70px">F</label><input id="xf" type="text" placeholder="0.02"></b><br>
+			<b><label style="width:70px">Cl</label><input id="xf" type="text" placeholder="0.02"></b><br>
+		</div>
+		<div class="col" style="width:80%">
+			<b><label style="width:70px">X<sub>F</sub></label><input id="xf" type="text" placeholder="0.02"></b><br>
+			<b><label style="width:70px">X<sub>Cl</sub></label><input id="xcl" type="text" placeholder="0.02"></b><br>
+			<b><label style="width:70px">X<sub>OH</sub>(m)</label><input id="xoh_m" type="text" placeholder="0.02"></b><br>
+			<b><label style="width:70px">X<sub>OH</sub>(c)</label><input id="xoh_c" type="text" placeholder="0.02"></b><p>
+		</div>
+		<small><i>X<sub>OH</sub> calculated using H<sub>2</sub>O from measurements (m) and/or from stoichimeotry calculation (c)</i></small>
+		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	</div>
+	<p>
+	<a id="doc" href="">Documents on web services that support this page</a><br>
+	<span>If you encounter any problem using this webpage, please email me: weiranli1991@gmail.com</span>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script charset="utf-8" src="jquery-3.3.1.min.js"></script>
+	<script charset="utf-8" src="hung_output.js"></script>
+	<style>
+		h2{
+			color:FireBrick;
+			text-align: center;
+		}
+		.output:after{
+		    content: "";
+		    display: table;
+		    clear: both;
+		}
+		.col{
+			float: left;
+			width: 40%;
+		}
+		.col span{
+		    display: inline-block;
+		    width: 40px;
+		}
+		.zone{
+			padding-left: 5px;
+			font-size: 18px;
+		}
+		sup{
+			font-size: 10px;
+		}
+		sub{
+			font-size: 10px;
+		}
+		span.output{
+			border: 2px solid #9999;
+			border-radius: 5px;
+			border-style: inset;
+			display: inline-block;
+			width: 40px;
+			font-weight: normal;
+			font-size: 12px;
+			font-family: Arial;
+			text-align: right;
+		}
+		button{
+			font-size: 20px;
+			background: #c7e249;
+			border-radius: 10px;
+			width: 160px;
+		}
+	</style>
+	<title>Calculation Results</title>
+</head>
+<body>
+	<h2>CALCULATION RESULTS OF APATITE THERMODYNAMIC MODEL</h2>
+	<div class="output">
+		<div class="col" style="width:30%">
+			<b style="color:darkblue; font-size:20px"><i>Inputs</i></b>
+			<p>
+			<div class="zone">
+				Apatite compositions:<p>
+				<small><b>
+					<span>F</span><span class="output" id="f">3.50</span><br>
+					<span>Cl</span><span class="output" id="cl">0.40</span><br>
+					<span>H<sub>2</sub>O</span><span class="output" id="h2o">0.10</span><br>
+					<span>CO<sub>2</sub></span><span class="output" id="co2">0.02</span><br>
+					<span>T</span><span class="output" id="t">950</span><br>
+					<span>P</span><span class="output" id="p">200</span>
+				</b></small><p>
+				Volatiles in magmas:<p>
+				<small><b>
+					<span>F</span><span class="output" id="f2">1000</span><br>
+					<span>Cl</span><span class="output" id="cl2">2500</span><br>
+					<span>H<sub>2</sub>O</span><span class="output" id="h2o2">4.0</span><br>
+					<span>CO<sub>2</sub></span><span class="output" id="co22">2.5</span><br>
+				</b></small><p>
+			</div>
+		</div>
+
+		<div class="col">
+			<b style="color:red; font-size:20px"><i>Results of calculation</i></b>
+			<p>
+			<div class="zone">
+				<div class="col">
+					<b>Exchange coefficients</b><p>
+					<small><b>
+						<span style="width:100px">K<sub>D</sub>(OH-Cl)</span><span id="Kd_OHCl" class="output">0</span><br>
+						<span style="width:100px">K<sub>D</sub>(OH-F)</span><span id="Kd_OHF" class="output">0</span><br>
+						<span style="width:100px">K<sub>D</sub>(Cl-F)</span><span id="Kd_ClF" class="output">0</span>
+					</b></small><p>
+				</div>
+				<div class="col">
+					<b>Activity coefficients</b><p>
+					<small><b>
+						<span style="width:80px"><sub style="font-size:15px">γ</sub>(OH)<sub>Ap</sub></span><span id="gammaOH" class="output">0</span><br>
+						<span style="width:80px"><sub style="font-size:15px">γ</sub>(F)<sub>Ap</sub></span><span id="gammaF" class="output">0</span><br>
+						<span style="width:80px"><sub style="font-size:15px">γ</sub>(Cl)<sub>Ap</sub></span><span id="gammaCl" class="output">0</span>
+					</b></small><p>
+				</div>
+				<div style="clear:both"></div>
+				<p><br><br>
+				<b>Calculate volatiles in magmas using apatite:</b><p>
+				<small><b>
+					<span style="width:307px">F calculated using K<sub>D</sub>(Cl-F)</span><span id="MeltF" class="output">0</span>&ensp;<span>ppm</span><br>
+					<span style="width:307px">Cl calculated using K<sub>D</sub>(Cl-F)</span><span id="MeltCl" class="output">0</span>&ensp;<span>ppm</span><br>
+					<span style="width:307px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-Cl)<sub style="color:red;">&nbsp;(1)</sub></span><span id="MeltWater1" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>
+					<span style="width:307px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-F)<sub style="color:red;">&nbsp;(2)</sub></span><span id="MeltWater2" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>
+					<span style="width:307px">CO<sub>2</sub> calculated using K<sub>D</sub>(H<sub>2</sub>O-CO<sub>2</sub>)<sub style="color:red;">&nbsp;(1)</sub></span><span id="MeltCO2_1" class="output">0</span>&ensp;<span>ppm</span>
+					<p style="color:red"><span style="width:307px">CO<sub>2</sub> calculated using K<sub>D</sub>(H<sub>2</sub>O-CO<sub>2</sub>)<sub>&nbsp;(2)</sub></span><span id="MeltCO2_2" class="output" style="border:2px solid red">0</span>&ensp;<span>ppm</span><br></p>
+				</b></small>
+			</div>
+		</div>
+	</div>
+	<br><br><br><br><br><br><br><br><br><br><br><br>
+	<button class="Back"><b>Back!</b></button><br>
+	<small>Details of calculation approach can be found in Li W and Costa F (2018)...GCA...<br>(doi:...)</small>
+</body>
+</html>
