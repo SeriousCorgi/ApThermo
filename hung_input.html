@@ -35,6 +35,7 @@
 			border-radius: 5px;
 			text-align: right;
 			padding-right: 2px; 
+			font-family: Arial;
 		}
 		button.Compute{
 			font-size: 20px;
@@ -105,6 +106,18 @@
 			stroke: #DB7365;
 			stroke-width: 2px;
 		}
+		span.output{
+			border: 2px solid #9999;
+			border-radius: 5px;
+			border-style: inset;
+			padding-right: 2px;
+			display: inline-block;
+			width: 38px;
+			font-weight: normal;
+			font-family: Arial;
+			font-size: 12px;
+			text-align: right;
+		}
 	</style>
 	<title>Apatite Thermodynamic Model</title>
 </head>
@@ -162,6 +175,27 @@
 			<sup>*</sup>If H<sub>2</sub>O in apatite was not directly measured, leave this box empty, so that our model will calculate it based on stoichiometry, assuming that only F, Cl and OH occupy the anion site.
 		</i></small></p>
 	</div>
+	<div style="border:1.5px solid pink;padding:10px;width:1000px;display:inline-block;">
+		<div id="plot" style="left:400px;position:absolute;"></div>
+		<button class="Calculate"><i><b>Calculate!</b></i></button><p>
+		<span>Chemical formula: Ca<sub>10</sub>(PO<sub>4</sub>)<sub>6</sub>X<sub>2</sub></span><br>
+		<p>
+		<div class="col" style="width:20%">
+			<b><label style="width:70px">Ca</label><span id="ca_out" class="output">0</span></b><br>
+			<b><label style="width:70px">P</label><span id="p_out" class="output">0</span></b><br>
+			<b><label style="width:70px">F</label><span id="f_out" class="output">0</span></b><br>
+			<b><label style="width:70px">Cl</label><span id="cl_out" class="output">0</span></b><br>
+		</div>
+		<div class="col" style="width:80%">
+			<b><label style="width:70px">X<sub>F</sub></label><span id="xf" class="output">0</span></b><br>
+			<b><label style="width:70px">X<sub>Cl</sub></label><span id="xcl" class="output">0</span></b><br>
+			<b><label style="width:70px">X<sub>OH</sub>(m)</label><span id="xoh_m" class="output">0</span></b><br>
+			<b><label style="width:70px">X<sub>OH</sub>(c)</label><span id="xoh_c" class="output">0</span></b><p>
+		</div>
+		<small><i>X<sub>OH</sub> calculated using H<sub>2</sub>O from measurements (m) and/or from stoichimeotry calculation (c)</i></small>
+		<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	</div>
+	<p>
 	<div class="input" style="border:1.5px solid skyblue;padding:10px;width:1000px;display:inline-block;">
 		<h3>Calculating volatile concentration in magmas:</h3>
 		<p>
@@ -185,27 +219,6 @@
 				<button class="Compute"><i><b>Compute!</b></i></button>
 			</div>
 		</small>
-	</div>
-	<p>
-	<div style="border:1.5px solid pink;padding:10px;width:1000px;display:inline-block;">
-		<div id="plot" style="left:400px;position:absolute;"></div>
-		<button class="Calculate"><i><b>Calculate!</b></i></button><p>
-		<span>Chemical formula: Ca<sub>10</sub>(PO<sub>4</sub>)<sub>6</sub>X<sub>2</sub></span><br>
-		<p>
-		<div class="col" style="width:20%">
-			<b><label style="width:70px">Ca</label><input id="xf" type="text" placeholder="0.02"></b><br>
-			<b><label style="width:70px">P</label><input id="xf" type="text" placeholder="0.02"></b><br>
-			<b><label style="width:70px">F</label><input id="xf" type="text" placeholder="0.02"></b><br>
-			<b><label style="width:70px">Cl</label><input id="xf" type="text" placeholder="0.02"></b><br>
-		</div>
-		<div class="col" style="width:80%">
-			<b><label style="width:70px">X<sub>F</sub></label><input id="xf" type="text" placeholder="0.02"></b><br>
-			<b><label style="width:70px">X<sub>Cl</sub></label><input id="xcl" type="text" placeholder="0.02"></b><br>
-			<b><label style="width:70px">X<sub>OH</sub>(m)</label><input id="xoh_m" type="text" placeholder="0.02"></b><br>
-			<b><label style="width:70px">X<sub>OH</sub>(c)</label><input id="xoh_c" type="text" placeholder="0.02"></b><p>
-		</div>
-		<small><i>X<sub>OH</sub> calculated using H<sub>2</sub>O from measurements (m) and/or from stoichimeotry calculation (c)</i></small>
-		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	</div>
 	<p>
 	<a id="doc" href="">Documents on web services that support this page</a><br>

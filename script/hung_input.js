@@ -1,3 +1,17 @@
+//
+SiO2=0.2;Ce2O3=0.2;FeO=0.1;
+MgO=0.3;MnO=0;Na2O=0.2;SrO=0.01;
+totalOnum=25; 
+// coefficeints for calculation: atomic mass of elements/compounds 
+MASSF=19;MASSCl=35.45;MASSH2O= 16+1*2;
+MASSCaO=56.08;MASSP2O5=141.94;
+MASSSO3=80.06;MASSCO2=44;
+MASSSiO2=60.08;MASSCe2O3=328.24;
+MASSFeO=71.85;MASSMgO=(24.31+16);
+MASSMnO=70.94;MASSNa2O=61.98;
+MASSSrO=103.62;
+totalOnum = 25;
+
 $(function() {
 	var plot_opts = {
 		side: 400,
@@ -7,52 +21,53 @@ $(function() {
 		minor_axis_ticks:d3.range(0, 101, 5)
 	};
 	tp = ternaryPlot( '#plot', plot_opts );
+
 	$(".Compute").click(function(e) {
-		var f =$('#f').val();
+		var f  = $('#f').val();
 		sessionStorage.setItem("f", f);
-		var cl =$('#cl').val()
+		var cl  = $('#cl').val();
 		sessionStorage.setItem("cl", cl);
-		var h2o =$('#h2o').val()
+		var h2o  = $('#h2o').val();
 		sessionStorage.setItem("h2o", h2o);
-		var co2 =$('#co2').val()
+		var co2  = $('#co2').val();
 		sessionStorage.setItem("co2", co2);
-		var t =$('#t').val()
+		var t  = $('#t').val();
 		sessionStorage.setItem("t", t);
-		var p =$('#p').val()
+		var p  = $('#p').val();
 		sessionStorage.setItem("p", p);
-		var f2=$('#f2').val()
+		var f2 = $('#f2').val();
 		sessionStorage.setItem("f2", f2);
-		var cl2 =$('#cl2').val()
+		var cl2  = $('#cl2').val();
 		sessionStorage.setItem("cl2", cl2);
-		var h2o2=$('#h2o2').val()
+		var h2o2 = $('#h2o2').val();
 		sessionStorage.setItem("h2o2", h2o2);
-		var co22=$('#co22').val()
+		var co22 = $('#co22').val();
 		sessionStorage.setItem("co22", co22);
-		var cao=$('#cao').val()
+		var cao = $('#cao').val();
 		sessionStorage.setItem("cao", cao);
-		var p2o5=$('#p2o5').val()
+		var p2o5 = $('#p2o5').val();
 		sessionStorage.setItem("p2o5", p2o5);
-		var so3=$('#so3').val()
+		var so3 = $('#so3').val();
 		sessionStorage.setItem("so3", so3);
-		var sio2=$('#sio2').val()
+		var sio2 = $('#sio2').val();
 		sessionStorage.setItem("sio2", sio2);
-		var na2o=$('#na2o').val()
+		var na2o = $('#na2o').val();
 		sessionStorage.setItem("na2o", na2o);
-		var mgo=$('#mgo').val()
+		var mgo = $('#mgo').val();
 		sessionStorage.setItem("mgo", mgo);
-		var al2o3=$('#al2o3').val()
+		var al2o3 = $('#al2o3').val();
 		sessionStorage.setItem("al2o3", al2o3);
-		var mno=$('#mno').val()
+		var mno = $('#mno').val();
 		sessionStorage.setItem("mno", mno);
-		var feo=$('#feo').val()
+		var feo = $('#feo').val();
 		sessionStorage.setItem("feo", feo);
-		var fe2o3=$('#fe2o3').val()
+		var fe2o3 = $('#fe2o3').val();
 		sessionStorage.setItem("fe2o3", fe2o3);
-		var ce2o3=$('#ce2o3').val()
+		var ce2o3 = $('#ce2o3').val();
 		sessionStorage.setItem("ce2o3", ce2o3);
-		var sro=$('#sro').val()
+		var sro = $('#sro').val();
 		sessionStorage.setItem("sro", sro);
-		var bao=$('#bao').val()
+		var bao = $('#bao').val();
 		sessionStorage.setItem("bao", bao);
 
 	    if(!isNaN(parseFloat(f)) && !isNaN(parseFloat(cl)) && !isNaN(parseFloat(t)) && !isNaN(parseFloat(p)) && !isNaN(parseFloat(cao)) && !isNaN(parseFloat(p2o5))){
@@ -63,30 +78,148 @@ $(function() {
 	});
 
 	$(".Calculate").click(function(e) {
-		var xf=$('#xf').val();
-		var xcl=$('#xcl').val();
-		var xoh_m=$('#xoh_m').val();
-		var xoh_c=$('#xoh_c').val();
+		// required
+		var FAp = parseFloat($('#f').val());
+		var ClAp = parseFloat($('#cl').val());
+		var cao = parseFloat($('#cao').val());
+		var p2o5 = parseFloat($('#p2o5').val());
+		// optional
+		var h2o;
+		if (isNaN(h2o = parseFloat($('#h2o').val()))){
+			h2o = 0;
+		}
+		var co2;
+		if (isNaN(co2 = parseFloat($('#co2').val()))){
+			co2 = 0;
+		}
+		var so3;
+		if (isNaN(so3 = parseFloat($('#so3').val()))){
+			so3 = 0;
+		}
+		var sio2;
+		if (isNaN(sio2 = parseFloat($('#sio2').val()))){
+			sio2 = 0;
+		}
+		var na2o;
+		if (isNaN(na2o = parseFloat($('#na2o').val()))){
+			na2o = 0;
+		}
+		var mgo;
+		if (isNaN(mgo = parseFloat($('#mgo').val()))){
+			mgo = 0;
+		}
+		var al2o3;
+		if (isNaN(al2o3 = parseFloat($('#al2o3').val()))){
+			al2o3 = 0;
+		}
+		var mno;
+		if (isNaN(mno = parseFloat($('#mno').val()))){
+			mno = 0;
+		}
+		var feo;
+		if (isNaN(feo = parseFloat($('#feo').val()))){
+			feo = 0;
+		}
+		var fe2o3;
+		if (isNaN(fe2o3 = parseFloat($('#fe2o3').val()))){
+			fe2o3 = 0;
+		}
+		var ce2o3;
+		if (isNaN(ce2o3 = parseFloat($('#ce2o3').val()))){
+			ce2o3 = 0;
+		}
+		var sro;
+		if (isNaN(sro = parseFloat($('#sro').val()))){
+			sro = 0;
+		}
+		var bao;
+		if (isNaN(bao = parseFloat($('#bao').val()))){
+			bao = 0;
+		}
 
-		// var MassCl=35.45; // molar mass of Cl
-		// var MassF=18.998; // molar mass of Cl
-		// var MassH2O=18.015; // molar mass of h2o
-		// var f_molar= FAp/MassF;
-		// var oh_molar= H2OAp/MassH2O*2;
-		// var cl_molar= ClAp/MassCl;
-		// var TotalMolar = f_molar + oh_molar + cl_molar;
-		// var x_f=f_molar/TotalMolar;
-		// var x_oh=oh_molar/TotalMolar;
-		// var x_cl=cl_molar/TotalMolar;
+		if(!isNaN(FAp) && !isNaN(ClAp) && !isNaN(cao) && !isNaN(p2o5)) {
+			// Stoichiometry Calculation
+			var mF = FAp/MASSF;
+			var mCl = ClAp/MASSCl; 
+			var mCaO = cao/MASSCaO;
+			var mP2O5 = p2o5/MASSP2O5; 
+			var mSO3 = so3/MASSSO3;
+			var mCO2 = co2/MASSCO2;
+			var mSiO2 = sio2/MASSSiO2;
+			var mCe2O3 = ce2o3/MASSCe2O3;
+			var mFeO = feo/MASSFeO;
+			var mMgO = mgo/MASSMgO;
+			var mMnO = mno/MASSMnO;
+			var mNa2O = na2o/MASSNa2O;
+			var mSrO = sro/MASSSrO;
+			var total_oxygen =  (mCaO+ mP2O5*5 + mSO3*3 + mCO2*2 + mSiO2*2 + mCe2O3*3 + mFeO + mMgO + mMnO + mNa2O + mSrO) - 0.5*(mF+mCl);
+			var oxygen_factor =  totalOnum/total_oxygen;
 
-		if(true) {
-			next();
-			d3.event.preventDefault();
+			// Ca site
+			var nCa = mCaO*oxygen_factor;
+			var nFe = mFeO*oxygen_factor;
+			var nMg = mMgO*oxygen_factor;
+			var nMn = mMnO*oxygen_factor;
+			var nNa = mNa2O*oxygen_factor *2;
+			var nSr = mSrO*oxygen_factor;
+			var nCe = mCe2O3*oxygen_factor*2;
+			var total_Casite =  nCa + nFe + nMg + nMn + nNa + nSr + nCe;
+
+			// P site
+			var nP = mP2O5*oxygen_factor*2;
+			var nSi = mSiO2*oxygen_factor;
+			var nS = mSO3*oxygen_factor;
+			var nC = mCO2*oxygen_factor;
+			var total_Psite =  nP + nSi + nS + nC;
+			var CaOverP = total_Casite/total_Psite;
+			var bias = (CaOverP-5/3)/(5/3);
+
+			// When H2O is measured
+			var mF =  FAp/MASSF;
+			var moh =  2* h2o/MASSH2O; // if the box of H2O(m) is not filled, take H2OAp  = 0;
+			var mCl =  ClAp/MASSCl;
+			var TotalMolar = mF + moh + mCl;
+			var x_f_m = mF/TotalMolar;
+			var x_oh_m = moh/TotalMolar;
+			var x_cl_m = mCl/TotalMolar;
+
+			// When H2O is not measured
+			var nF = mF*oxygen_factor;
+			var nCl = mCl*oxygen_factor;
+			var total_Xsite =  nF + nCl;
+			var nOH_c = 2 - total_Xsite;
+			var x_f_c =  nF/2;
+			var x_cl_c =  nCl/2;
+			var x_oh_c =  nOH_c/2;
+
+			// Output
+			if (moh == 0){
+				var x_f = x_f_m;
+				var x_cl = x_cl_m;
+				var x_oh = x_oh_m;
+			}else{
+				var x_f = x_f_c;
+		    	var x_cl = x_cl_c;
+		    	var x_oh = x_oh_c; 
+			}
+					
+			// Display
+			$("#ca_out").html(Math.round(total_Casite * 100) / 100);	
+			$("#p_out").html(Math.round(total_Psite * 100) / 100);	
+			$("#f_out").html(Math.round(FAp * 100) / 100);	
+			$("#cl_out").html(Math.round(ClAp * 100) / 100);
+			$("#xf").html(Math.round(x_f * 100) / 100);
+			$("#xcl").html(Math.round(x_cl * 100) / 100);
+			$("#xoh_m").html(Math.round(x_oh_m * 100) / 100);
+			$("#xoh_c").html(Math.round(x_oh_c * 100) / 100);
+
+			next(x_f, x_cl, x_oh);
 		}else {
-			alert("Hahahaha");
+			alert("Please fill in the required field above!");
 		}
 	});
 })
+
 
 function ternaryPlot(selector, userOpt ) {
 
@@ -275,12 +408,12 @@ function ternaryPlot(selector, userOpt ) {
 	return plot;
 }
 
-function next(){
+function next(x_f, x_cl, x_oh){
 	var d = []
 	d.push({
-		Cl:Math.random(),
-		F:Math.random(),
-		OH:Math.random(),
+		Cl: x_f,
+		F: x_cl,
+		OH: x_oh,
 		label:'point'
 	})
 	tp.data(d, function(d){ return [d.Cl, d.F, d.OH]}, 'label');
