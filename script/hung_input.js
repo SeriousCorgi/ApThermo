@@ -204,14 +204,14 @@ $(function() {
 			}
 					
 			// Display
-			$("#ca_out").html(Math.round(total_Casite * 100) / 100);	
-			$("#p_out").html(Math.round(total_Psite * 100) / 100);	
-			$("#f_out").html(Math.round(FAp * 100) / 100);	
-			$("#cl_out").html(Math.round(ClAp * 100) / 100);
-			$("#xf").html(Math.round(x_f * 100) / 100);
-			$("#xcl").html(Math.round(x_cl * 100) / 100);
-			$("#xoh_m").html(Math.round(x_oh_m * 100) / 100);
-			$("#xoh_c").html(Math.round(x_oh_c * 100) / 100);
+			$("#ca_out").html(Math.round(total_Casite * 1000) / 1000);	
+			$("#p_out").html(Math.round(total_Psite * 1000) / 1000);	
+			$("#f_out").html(Math.round(FAp * 1000) / 1000);	
+			$("#cl_out").html(Math.round(ClAp * 1000) / 1000);
+			$("#xf").html(Math.round(x_f * 1000) / 1000);
+			$("#xcl").html(Math.round(x_cl * 1000) / 1000);
+			$("#xoh_m").html(Math.round(x_oh_m * 1000) / 1000);
+			$("#xoh_c").html(Math.round(x_oh_c * 1000) / 1000);
 
 			next(x_f, x_cl, x_oh);
 		}else {
@@ -339,7 +339,7 @@ function ternaryPlot(selector, userOpt ) {
 
 		axes.append('g')
 			.attr('transform',function(d){
-				return 'translate(' + (8 + coord2[0]) + ',' + (20 + coord2[1]) + ')'
+				return 'translate(' + (10 + coord2[0]) + ',' + (20 + coord2[1]) + ')'
 			})
 			.append("text")
 				.attr('text-anchor','end')
@@ -363,7 +363,7 @@ function ternaryPlot(selector, userOpt ) {
 	}
 
 	function coord(arr){
-		var a = arr[0], b=arr[1], c=arr[2]; 
+		var a = arr[0], b = arr[1], c = arr[2]; 
 		var sum, pos = [0,0];
 	    sum = a + b + c;
 	    if(sum !== 0) {
@@ -411,12 +411,12 @@ function ternaryPlot(selector, userOpt ) {
 function next(x_f, x_cl, x_oh){
 	var d = []
 	d.push({
-		Cl: x_f,
-		F: x_cl,
+		Cl: x_cl,
+		F: x_f,
 		OH: x_oh,
 		label:'point'
 	})
-	tp.data(d, function(d){ return [d.Cl, d.F, d.OH]}, 'label');
+	tp.data(d, function(d){ return [d.Cl, d.OH, d.F]}, 'label');
 }
 
 
