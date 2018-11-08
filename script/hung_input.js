@@ -10,7 +10,7 @@ MASSSiO2=60.08;MASSCe2O3=328.24;
 MASSFeO=71.85;MASSMgO=(24.31+16);
 MASSMnO=70.94;MASSNa2O=61.98;
 MASSSrO=103.62;
-totalOnum = 25;
+totalOnum = 26;
 
 $(function() {
 	var plot_opts = {
@@ -27,8 +27,6 @@ $(function() {
 		sessionStorage.setItem("f", f);
 		var cl  = $('#cl').val();
 		sessionStorage.setItem("cl", cl);
-		var h2o  = $('#h2o').val();
-		sessionStorage.setItem("h2o", h2o);
 		var co2  = $('#co2').val();
 		sessionStorage.setItem("co2", co2);
 		var t  = $('#t').val();
@@ -69,7 +67,16 @@ $(function() {
 		sessionStorage.setItem("sro", sro);
 		var bao = $('#bao').val();
 		sessionStorage.setItem("bao", bao);
-
+		var h2o  = $('#h2o').val();
+		if (!isNaN(parseFloat(h2o))){
+			sessionStorage.setItem("h2o", h2o);
+		} else {
+			// When H2O is not measured
+			var H2O_c = nOH_c/nF*(f/MASSF)/2*18;
+			var x_oh = x_oh_c;
+			sessionStorage.setItem("h2o", Math.round(H2O_c*1000)/1000);
+		}
+		console.log(h2o, H2O_c);
 	    if(!isNaN(parseFloat(f)) && !isNaN(parseFloat(cl)) && !isNaN(parseFloat(t)) && !isNaN(parseFloat(p)) && !isNaN(parseFloat(cao)) && !isNaN(parseFloat(p2o5))){
 	    	location.href='hung_output.html';
 	    }else{
@@ -139,75 +146,75 @@ $(function() {
 
 		if(!isNaN(FAp) && !isNaN(ClAp) && !isNaN(cao) && !isNaN(p2o5)) {
 			// Stoichiometry Calculation
-			var mF = FAp/MASSF;
-			var mCl = ClAp/MASSCl; 
-			var mCaO = cao/MASSCaO;
-			var mP2O5 = p2o5/MASSP2O5; 
-			var mSO3 = so3/MASSSO3;
-			var mCO2 = co2/MASSCO2;
-			var mSiO2 = sio2/MASSSiO2;
-			var mCe2O3 = ce2o3/MASSCe2O3;
-			var mFeO = feo/MASSFeO;
-			var mMgO = mgo/MASSMgO;
-			var mMnO = mno/MASSMnO;
-			var mNa2O = na2o/MASSNa2O;
-			var mSrO = sro/MASSSrO;
-			var total_oxygen =  (mCaO+ mP2O5*5 + mSO3*3 + mCO2*2 + mSiO2*2 + mCe2O3*3 + mFeO + mMgO + mMnO + mNa2O + mSrO) - 0.5*(mF+mCl);
-			var oxygen_factor =  totalOnum/total_oxygen;
+			mF = FAp/MASSF;
+			mCl = ClAp/MASSCl; 
+			mCaO = cao/MASSCaO;
+			mP2O5 = p2o5/MASSP2O5; 
+			mSO3 = so3/MASSSO3;
+			mCO2 = co2/MASSCO2;
+			mSiO2 = sio2/MASSSiO2;
+			mCe2O3 = ce2o3/MASSCe2O3;
+			mFeO = feo/MASSFeO;
+			mMgO = mgo/MASSMgO;
+			mMnO = mno/MASSMnO;
+			mNa2O = na2o/MASSNa2O;
+			mSrO = sro/MASSSrO;
+			total_oxygen =  (mCaO+ mP2O5*5 + mSO3*3 + mCO2*2 + mSiO2*2 + mCe2O3*3 + mFeO + mMgO + mMnO + mNa2O + mSrO) - 0.5*(mF+mCl);
+			oxygen_factor =  totalOnum/total_oxygen;
 
 			// Ca site
-			var nCa = mCaO*oxygen_factor;
-			var nFe = mFeO*oxygen_factor;
-			var nMg = mMgO*oxygen_factor;
-			var nMn = mMnO*oxygen_factor;
-			var nNa = mNa2O*oxygen_factor *2;
-			var nSr = mSrO*oxygen_factor;
-			var nCe = mCe2O3*oxygen_factor*2;
-			var total_Casite =  nCa + nFe + nMg + nMn + nNa + nSr + nCe;
+			nCa = mCaO*oxygen_factor;
+			nFe = mFeO*oxygen_factor;
+			nMg = mMgO*oxygen_factor;
+			nMn = mMnO*oxygen_factor;
+			nNa = mNa2O*oxygen_factor *2;
+			nSr = mSrO*oxygen_factor;
+			nCe = mCe2O3*oxygen_factor*2;
+			total_Casite =  nCa + nFe + nMg + nMn + nNa + nSr + nCe;
 
 			// P site
-			var nP = mP2O5*oxygen_factor*2;
-			var nSi = mSiO2*oxygen_factor;
-			var nS = mSO3*oxygen_factor;
-			var nC = mCO2*oxygen_factor;
-			var total_Psite =  nP + nSi + nS + nC;
-			var CaOverP = total_Casite/total_Psite;
-			var bias = (CaOverP-5/3)/(5/3);
+			nP = mP2O5*oxygen_factor*2;
+			nSi = mSiO2*oxygen_factor;
+			nS = mSO3*oxygen_factor;
+			nC = mCO2*oxygen_factor;
+			total_Psite =  nP + nSi + nS + nC;
+			CaOverP = total_Casite/total_Psite;
+			bias = (CaOverP-5/3)/(5/3);
 
 			// When H2O is measured
-			var mF =  FAp/MASSF;
-			var moh =  2* h2o/MASSH2O; // if the box of H2O(m) is not filled, take H2OAp  = 0;
-			var mCl =  ClAp/MASSCl;
-			var TotalMolar = mF + moh + mCl;
-			var x_f_m = mF/TotalMolar;
-			var x_oh_m = moh/TotalMolar;
-			var x_cl_m = mCl/TotalMolar;
+			mF =  FAp/MASSF;
+			moh =  2* h2o/MASSH2O; // if the box of H2O(m) is not filled, take H2OAp  = 0;
+			mCl =  ClAp/MASSCl;
+			TotalMolar = mF + moh + mCl;
+			x_f_m = mF/TotalMolar;
+			x_oh_m = moh/TotalMolar;
+			x_cl_m = mCl/TotalMolar;
 
 			// When H2O is not measured
-			var nF = mF*oxygen_factor;
-			var nCl = mCl*oxygen_factor;
-			var total_Xsite =  nF + nCl;
-			var nOH_c = 2 - total_Xsite;
-			var x_f_c =  nF/2;
-			var x_cl_c =  nCl/2;
-			var x_oh_c =  nOH_c/2;
+			nF = mF*oxygen_factor;
+			nCl = mCl*oxygen_factor;
+			total_Xsite =  nF + nCl;
+			nOH_c = 2 - total_Xsite;
+			x_f_c =  nF/2;
+			x_cl_c =  nCl/2;
+			x_oh_c =  nOH_c/2;
 
 			// Output
 			if (moh == 0){
-				var x_f = x_f_m;
-				var x_cl = x_cl_m;
-				var x_oh = x_oh_m;
+				x_f = x_f_m;
+				x_cl = x_cl_m;
+				x_oh = x_oh_m;
 			}else{
-				var x_f = x_f_c;
-		    	var x_cl = x_cl_c;
-		    	var x_oh = x_oh_c; 
+				x_f = x_f_c;
+		    	x_cl = x_cl_c;
+		    	x_oh = x_oh_c; 
 			}
 					
 			// Display
 			$("#ca_out").html(Math.round(total_Casite * 1000) / 1000);	
 			$("#p_out").html(Math.round(total_Psite * 1000) / 1000);	
-			$("#f_out").html(Math.round(FAp * 1000) / 1000);	
-			$("#cl_out").html(Math.round(ClAp * 1000) / 1000);
+			$("#f_out").html(Math.round(nF * 1000) / 1000);	
+			$("#cl_out").html(Math.round(nCl * 1000) / 1000);
 			$("#xf").html(Math.round(x_f * 1000) / 1000);
 			$("#xcl").html(Math.round(x_cl * 1000) / 1000);
 			$("#xoh_m").html(Math.round(x_oh_m * 1000) / 1000);
@@ -416,7 +423,7 @@ function next(x_f, x_cl, x_oh){
 		OH: x_oh,
 		label:'point'
 	})
-	tp.data(d, function(d){ return [d.Cl, d.OH, d.F]}, 'label');
+	tp.data(d, function(d){ return [d.OH, d.F, d.Cl]}, 'label');
 }
 
 

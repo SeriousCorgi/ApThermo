@@ -11,23 +11,21 @@ $(function() {
 	ClAp = parseFloat(sessionStorage.getItem("cl"));
 	T = parseFloat(sessionStorage.getItem("t"));
 	P = parseFloat(sessionStorage.getItem("p"));
-	if (isNaN(H2OAp = parseFloat(sessionStorage.getItem("h2o")))){
-		H2OAp = 0;
-	}
+	H2OAp = parseFloat(sessionStorage.getItem("h2o"));
 	if (isNaN(CO2Ap = parseFloat(sessionStorage.getItem("co2")))){
-		CO2Ap = 0;
+		CO2Ap = 0.01;
 	}
 	if (isNaN(MeltF = parseFloat(sessionStorage.getItem("f2")))){
-		MeltF = 0;
+		MeltF = 1000;
 	}
 	if (isNaN(MeltCl = parseFloat(sessionStorage.getItem("cl2")))){
-		MeltCl = 0;
+		MeltCl = 2500;
 	}
 	if (isNaN(vol_h2o = parseFloat(sessionStorage.getItem("h2o2")))){
-		vol_h2o = 0;
+		vol_h2o = 4;
 	}
 	if (isNaN(vol_co2 = parseFloat(sessionStorage.getItem("co22")))){
-		vol_co2 = 0;
+		vol_co2 = 500;
 	}
 
 	$("#f").html(FAp);	
@@ -45,11 +43,11 @@ $(function() {
 	// calculate exchange coefficients of Kd_OHCl,Kd_OHF, Kd_ClF
 	R=8.314; // gas constant
 	T_K=T+273.15; // Convert T_C to Kelvin
-	deltaG_ClOH = 46-0.016*T_K + 0.0002*(P*10-1); // ERROR: k:0.002 ; b:2.7
-	deltaG_FOH = 82.8-0.034*T_K; // ERROR: k:0.005 ; b:6.9
-	Wg_ClOH=20.6; // calculated Wg of Cl-OH, kJ/mol
-	Wg_FCl=5; // calculated Wg of F-Cl, kJ/mol
-	Wg_FOH=5; // calculated Wg of F-OH, kJ/mol
+	deltaG_ClOH = 52.4-0.02*T_K + 0.00017*(P*10-1); // ERROR: k:0.002 ; b:2.7
+	deltaG_FOH = 70.4-0.03*T_K + 0.00057*(P*10-1); // ERROR: k:0.005 ; b:6.9
+	Wg_ClOH=18.3; // calculated Wg of Cl-OH, kJ/mol
+	Wg_FCl=6.8; // calculated Wg of F-Cl, kJ/mol
+	Wg_FOH=3.56; // calculated Wg of F-OH, kJ/mol
 
 	// calculate mole fraction of FAp, HAp, ClAp
 	MassCl=35.45; // molar mass of Cl
@@ -82,14 +80,19 @@ $(function() {
 
 	// row3: H2O calculated using Kd(OH-Cl) (1)
 	// calculate mole OH in melt and total H2O in wt//  
-	ClF_melt = (x_cl/x_f)/Kd_ClF; // melt Cl/F in molar ratios
 	OHCl_melt=(x_oh/x_cl)/Kd_OHCl; // melt OH/Cl in molar ratios
 	OHF_melt=(x_oh/x_f)/Kd_OHF; // melt OH/F in molar ratios
+	ClF_melt = (x_cl/x_f)/Kd_ClF; // melt Cl/F in molar ratios
+
 	meanM=33.82; // molar mass of studied melt
 	moleCl_melt =((MeltCl/10000)/MassCl)/(100/meanM); // mole Cl in melt (input Cl in ppm)
 	moleOH_melt1 = moleCl_melt*OHCl_melt
 	moleF_melt =((MeltF/10000)/MassF)/(100/meanM); // mole F in melt (input F in ppm)
 	moleOH_melt2 = moleF_melt*OHF_melt;
+
+	//massOHCl = ;
+	//massOHF = ;
+	//massCl = ;
 
 	// solve equation that involves moleOH and total H2O using Cl
 	k2=Math.exp(1.49-2634/T_K);
@@ -102,7 +105,8 @@ $(function() {
 	//eqn3=moleH2O_melt1 == (x/MassH2O)/(x/MassH2O+(1-x)/meanM);
 	//n1=solve(eqn3,x); // n is the solution of equation=mass fraction of total water in melt
 	n1 = eqn2(moleH2O_melt1);
-	MeltWater1=eval(n1)*100; // calculated using Kd(OH-Cl)
+	console.log(n1);
+	MeltWater1=n1*100; // calculated using Kd(OH-Cl)
 	$("#MeltWater1").html(MeltWater1);
 
 	// row4: H2O calculated using Kd(OH-F) (2)
@@ -115,40 +119,37 @@ $(function() {
 	//eqn4=moleH2O_melt2 == (x/MassH2O)/(x/MassH2O+(1-x)/meanM);
 	//n2=solve(eqn4,x);
 	n2 = eqn2(moleH2O_melt2);
-	MeltWater2=eval(n2)*100; // calcuated using Kd(OH-F)
+	MeltWater2=n2*100; // calcuated using Kd(OH-F)
 	$("#MeltWater2").html(MeltWater2);
 
 	// row5: calcualted CO2 (1)
 	KD = 0.629;
 	MeltCO2_1 = MeltWater1/((H2OAp/CO2Ap)/KD)*10000;
-	$("#MeltCO2_1").html(MeltCO2_1);
+	$("#MeltCO2_1").html(Math.round(MeltCO2_1));
 
 	// row6: calculated CO2 (2)
 	MeltCO2_2 = MeltWater2/((H2OAp/CO2Ap)/KD)*10000;
-	$("#MeltCO2_2").html(MeltCO2_2);
-	console.log(((H2OAp/CO2Ap)/KD));
+	$("#MeltCO2_2").html(Math.round(MeltCO2_2));
 })
 
 function eqn1(mole){
-	var x;
-	var e = 0.01;
-	for (x = 0; x <= 1000; x++){
-		x = x/100;
-		ans = 2*x+(8*x+k2-2*x*k2-Math.sqrt(k2)*Math.sqrt(16*x-16*x^2+k2-4*x*k2+4*x^2*k2))/(k2-4);
+	var e = 0.00001;
+	for (r = 0; r <= 10000; r++){
+		x = r/100000;
+		var ans = 2*x+(8*x+k2-2*x*k2-Math.sqrt(k2)*Math.sqrt(16*x-16*x*x+k2-4*x*k2+4*x*x*k2))/(k2-4);
 		if (Math.abs(ans - mole) <= e){
 			return x;
-		} else{ return 0; }
+		}
 	}
 }
 
 function eqn2(mole){
-	var x;
-	var e = 0.01;
-	for (x = 0; x <= 1000; x++){
-		x = x/100;
+	var e = 0.00001;
+	for (r = 0; r <= 10000; r++){
+		x = r/100000;
 		ans = (x/MassH2O)/(x/MassH2O+(1-x)/meanM);
 		if (Math.abs(ans - mole) <= e){
 			return x;
-		} else{ return 0; }
+		}
 	}
 }
