@@ -200,7 +200,7 @@ $(function() {
 			x_oh_c =  nOH_c/2;
 
 			// Output
-			if (moh == 0){
+			if (moh != 0){
 				x_f = x_f_m;
 				x_cl = x_cl_m;
 				x_oh = x_oh_m;

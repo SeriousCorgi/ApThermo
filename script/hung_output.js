@@ -105,7 +105,6 @@ $(function() {
 	//eqn3=moleH2O_melt1 == (x/MassH2O)/(x/MassH2O+(1-x)/meanM);
 	//n1=solve(eqn3,x); // n is the solution of equation=mass fraction of total water in melt
 	n1 = eqn2(moleH2O_melt1);
-	console.log(n1);
 	MeltWater1=n1*100; // calculated using Kd(OH-Cl)
 	$("#MeltWater1").html(MeltWater1);
 
@@ -134,7 +133,7 @@ $(function() {
 
 function eqn1(mole){
 	var e = 0.00001;
-	for (r = 0; r <= 10000; r++){
+	for (r = -3500; r <= 10000; r++){
 		x = r/100000;
 		var ans = 2*x+(8*x+k2-2*x*k2-Math.sqrt(k2)*Math.sqrt(16*x-16*x*x+k2-4*x*k2+4*x*x*k2))/(k2-4);
 		if (Math.abs(ans - mole) <= e){
@@ -145,7 +144,7 @@ function eqn1(mole){
 
 function eqn2(mole){
 	var e = 0.00001;
-	for (r = 0; r <= 10000; r++){
+	for (r = -3500; r <= 10000; r++){
 		x = r/100000;
 		ans = (x/MassH2O)/(x/MassH2O+(1-x)/meanM);
 		if (Math.abs(ans - mole) <= e){
