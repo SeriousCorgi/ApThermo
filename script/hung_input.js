@@ -65,7 +65,7 @@ $(function() {
 	    	MassF=18.998; // molar mass of Cl
 	    	MassH2O=18.015; // molar mass of h2o
 
-	    	if (isNaN(x_oh_m)){
+	    	if (isNaN(x_oh_m) || x_oh_m == 0){
 	    		x_oh = x_oh_c;
 	    	} else {
 	    		x_oh = x_oh_m;
@@ -313,7 +313,6 @@ $(function() {
 			x_f_c =  nF/2;
 			x_cl_c =  nCl/2;
 			x_oh_c =  nOH_c/2;
-			H2O_c = x_oh_c/2 * MASSH2O;
 
 			// Output
 			if (moh != 0){
@@ -325,6 +324,7 @@ $(function() {
 				x_cl = x_cl_c;
 				x_oh = x_oh_c; 
 			}
+			H2O_c = (x_oh_c/2)/x_f * MASSH2O/MASSF;
 			
 			// Display
 			$("#ca_out").html(Math.round(nCa * 1000) / 1000);	
