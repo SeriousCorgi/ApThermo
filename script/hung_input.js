@@ -39,7 +39,7 @@ $(function() {
 		var al2o3 = parseFloat($('#al2o3').val());
 		var mno = parseFloat($('#mno').val());
 		var feo = parseFloat($('#feo').val());
-		var fe2o3 = parseFloat($('#fe2o3').val());
+		//var fe2o3 = parseFloat($('#fe2o3').val());
 		var ce2o3 = parseFloat($('#ce2o3').val());
 		var sro = parseFloat($('#sro').val());
 		var bao = parseFloat($('#bao').val());
@@ -153,22 +153,21 @@ $(function() {
 	    			<div style="clear:both"></div>\
 	    			<p>\
 	    			<b>Calculate volatiles in magmas using apatite:</b><p>\
-	    			<small><b>\
-	    				<label style="width:379px">Mole OH/Cl</label><span id="moleOHCl" class="output">0</span><br>\
-	    				<label style="width:379px">Mole OH/F</label><span id="moleOHF" class="output">0</span><br>\
-	    				<label style="width:379px">Mole Cl/F</label><span id="moleClF" class="output">0</span><br>\
-	    				<br>\
-	    				<label style="width:379px">F calculated using K<sub>D</sub>(Cl-F)</label><span id="MeltF" class="output">0</span>&ensp;<span>ppm</span><br>\
-	    				<label style="width:379px">Cl calculated using K<sub>D</sub>(Cl-F)</label><span id="MeltCl" class="output">0</span>&ensp;<span>ppm</span><br>\
-	    				<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-Cl)<sub>&nbsp;(1)</sub></label><span id="MeltWater1" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>\
-	    				<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-F)<sub>&nbsp;(2)</sub></label><span id="MeltWater2" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>\
-		    			<span id="CO2_missing"><i style="color:red"></i></span>\
-	    				<label style="width:379px">CO<sub>2</sub> calculated using K<sub>D</sub>(H<sub>2</sub>O-CO<sub>2</sub>)<sub>&nbsp;(1)</sub></label><span id="MeltCO2_1" class="output">0</span>&ensp;<span>ppm</span><br>\
+				<small><b>\
+					<label style="width:379px">Mole OH/Cl</label><span id="moleOHCl" class="output">0</span><br>\
+					<label style="width:379px">Mole OH/F</label><span id="moleOHF" class="output">0</span><br>\
+					<label style="width:379px">Mole Cl/F</label><span id="moleClF" class="output">0</span><br>\
+					<br>\
+					<label style="width:379px">F calculated using K<sub>D</sub>(Cl-F)</label><span id="MeltF" class="output">0</span>&ensp;<span>ppm</span><br>\
+					<label style="width:379px">Cl calculated using K<sub>D</sub>(Cl-F)</label><span id="MeltCl" class="output">0</span>&ensp;<span>ppm</span><br>\
+					<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-Cl)<sub>&nbsp;(1)</sub></label><span id="MeltWater1" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>\
+					<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-F)<sub>&nbsp;(2)</sub></label><span id="MeltWater2" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>\
+					<label style="width:379px">CO<sub>2</sub> calculated using K<sub>D</sub>(H<sub>2</sub>O-CO<sub>2</sub>)<sub>&nbsp;(1)</sub></label><span id="MeltCO2_1" class="output">0</span>&ensp;<span>ppm</span><br>\
 					<label style="width:379px">CO<sub>2</sub> calculated using K<sub>D</sub>(H<sub>2</sub>O-CO<sub>2</sub>)<sub>&nbsp;(2)</sub></label><span id="MeltCO2_2" class="output">0</span>&ensp;<span>ppm</span><br></p>\
-	    			</b></small>\
+				</b></small>\
 	    		</div>\
 	    	';
-	    	$(".compute_output").html(html);
+	    	$("#compute_output").html(html);
 
 	    	$("#Kd_OHCl").html(Math.round(Kd_OHCl*1000)/1000);
 	    	$("#Kd_OHF").html(Math.round(Kd_OHF*1000)/1000);
@@ -180,19 +179,34 @@ $(function() {
 	    	$("#MeltCl").html(MeltCl); // row2
 	    	$("#MeltWater1").html(Math.round(MeltWater1*10)/10);
 	    	$("#MeltWater2").html(Math.round(MeltWater2*10)/10);
+		$("#MeltCO2_1").html(Math.round(MeltCO2_1));
+		$("#MeltCO2_2").html(Math.round(MeltCO2_2));
 	    	$("#moleOHCl").html(Math.round(massOHCl*100)/100);
 	    	$("#moleOHF").html(Math.round(massOHF*100)/100);
 	    	$("#moleClF").html(Math.round(massClF*100)/100);
 
-		if (isNaN(CO2Ap)){
-			$("#CO2_missing i").html("<br>!!Please fill in <b>CO2 Apetite</b> field to calculate the following value:<br>");
+		if (isNaN(MeltF) || isNaN(MeltCl)){
+			$("#missing").html("<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>Check the input box(es) marked in red color");
+			$("#f2").css("border", "2px solid red");
+			$("#cl2").css("border", "2px solid red");
+			$("#MeltF").html("Nil");
+			$("#MeltCl").html("Nil");
+			$("#MeltWater1").html("Nil");
+			$("#MeltWater2").html("Nil");
+			$("#MeltCO2_1").html("Nil");
+			$("#MeltCO2_2").html("Nil");
+	    	} else if (isNaN(CO2Ap)){
+			$("#f2").css("border", "");
+			$("#cl2").css("border", "");
+			$("#missing").html("<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>Check the input box(es) marked in red color");
 			$("#co2").css("border", "2px solid red");
 			$("#MeltCO2_1").html("Nil");
 			$("#MeltCO2_2").html("Nil");
 		} else{
 			$("#co2").css("border", "");
-			$("#MeltCO2_1").html(Math.round(MeltCO2_1));
-			$("#MeltCO2_2").html(Math.round(MeltCO2_2));
+			$("#f2").css("border", "");
+			$("#cl2").css("border", "");
+			$("#missing").html("");
 		}
 	    	// location.href='hung_output.html';
 	    }else{
@@ -243,10 +257,10 @@ $(function() {
 		if (isNaN(feo = parseFloat($('#feo').val()))){
 			feo = 0;
 		}
-		var fe2o3;
-		if (isNaN(fe2o3 = parseFloat($('#fe2o3').val()))){
-			fe2o3 = 0;
-		}
+		//var fe2o3;
+		//if (isNaN(fe2o3 = parseFloat($('#fe2o3').val()))){
+			//fe2o3 = 0;
+		//}
 		var ce2o3;
 		if (isNaN(ce2o3 = parseFloat($('#ce2o3').val()))){
 			ce2o3 = 0;
@@ -335,7 +349,7 @@ $(function() {
 			$("#xcl").html(Math.round(x_cl * 1000) / 1000);
 			$("#xoh_m").html(Math.round(x_oh_m * 1000) / 1000);
 			$("#xoh_c").html(Math.round(x_oh_c * 1000) / 1000);
-			$("#H2O_c").html(Math.round(H2O_c * 1000) / 1000);
+			//$("#H2O_c").html(Math.round(H2O_c * 1000) / 1000);
 
 			if (x_oh < 0){ x_oh = 0; }
 			next(x_f, x_cl, x_oh);

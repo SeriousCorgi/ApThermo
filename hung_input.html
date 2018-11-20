@@ -146,46 +146,46 @@
 	</small></div>
 	<div class="Instruction">
 		<b>Instruction:<br></b>
-		This mode aims to calculate volatile abundances in magmas using volatile compositions of apatite. i.e: F, Cl, H<sub>2</sub>O, and CO<sub>2</sub> (optional).<br>
-		The inputs of apatite compositions are reccommended to be measured directly.<br>
-		Presures and Temperatures are also required for calculation where T plays larger role than P to get volatile estimates of low uncertainties.<br>
+		This model aims to calculate volatile abundances in magmas using volatile compositions of apatite. i.e: F, Cl, H<sub>2</sub>O, and CO<sub>2</sub> (optional).<br>
+		1. Direct measurements on F, Cl, and H<sub>2</sub>O concentrations in apatite are preferred for calculation.<br>
+		2. Presures and Temperatures are also required for calculation, where temperature has larger effect on the calculated results (e.g. K<sub>D</sub>) than pressure.<br>
 		Equation for calculating exchange coefficient (K<sub>D</sub>) and activity coefficient (γ) were described in paper shown above.
 	</div><br>
 	<b style="color:red"><br>Now you can enter inputs below:<br></b>
-	<i>Box marked as "required" need to be fill in for calculation, whereas those marked as "optional" can be left as empty if their placeholders are unknown.</i><p>
+	<i>Boxes marked as "required" need to be filled in for calculation, whereas those marked as "optional" can be left as empty if the values are unknown.</i><p>
 	<h3>Calculating chemical formula of apatite:</h3>
 	<div class="input">
 		<div class="col" style="width:20%;padding-left:1%">
 			<i style="color:red">Required:</i>
 			<p>
 			<small>
-				<b><label style="width:100px">CaO</label><input id="cao" type="text" value="53.81">&nbsp;wt.&nbsp;%&nbsp;</b><br>
-				<b><label style="width:100px">P<sub>2</sub>O<sub>5</sub></label><input id="p2o5" type="text" value="40.44">&nbsp;wt.&nbsp;%&nbsp;</b><br>
-				<b><label style="width:100px">F</label><input id="f" type="text" value="3.53">&nbsp;wt.&nbsp;%&nbsp;</b><br>
-				<b><label style="width:100px">Cl</label><input id="cl" type="text" value="0.40">&nbsp;wt.&nbsp;%&nbsp;</b><p>
+				<b><label style="width:100px">CaO</label><input id="cao" type="text" value="52.8">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label style="width:100px">P<sub>2</sub>O<sub>5</sub></label><input id="p2o5" type="text" value="40.2">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label style="width:100px">F</label><input id="f" type="text" value="2.5">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label style="width:100px">Cl</label><input id="cl" type="text" value="0.92">&nbsp;wt.&nbsp;%&nbsp;</b><p>
 			</small>
 				<i>Optional:</i>
 			<small>
 				<p>
-				<b><label style="width:100px">H<sub>2</sub>O<sup>*</sup></label><input id="h2o" type="text" placeholder="0.01">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label style="width:100px">H<sub>2</sub>O<sup>*</sup></label><input id="h2o" type="text" placeholder="0.2">&nbsp;wt.&nbsp;%&nbsp;</b><br>
 				<b><label style="width:100px">CO<sub>2</sub></label><input id="co2" type="text" placeholder="0.02">&nbsp;wt.&nbsp;%&nbsp;</b><br>
-				<b><label style="width:100px">SO<sub>3</sub></label><input id="so3" type="text" placeholder="0.28">&nbsp;wt.&nbsp;%&nbsp;</b>
+				<b><label style="width:100px">SO<sub>3</sub></label><input id="so3" type="text" placeholder="0">&nbsp;wt.&nbsp;%&nbsp;</b>
 			</small>
 		</div>
 		<div class="col" style="width:79%">
 			<i>Optional:</i>
 			<p>
 			<small>
-				<b><label style="width:100px">SiO<sub>2</sub></label><input id="sio2" type="text" placeholder="0.42">&nbsp;wt.&nbsp;%&nbsp;</b><br>
-				<b><label style="width:100px">Na<sub>2</sub>O</label><input id="na2o" type="text" placeholder="0.12">&nbsp;wt.&nbsp;%&nbsp;</b><br>
-				<b><label style="width:100px">MgO</label><input id="mgo" type="text" placeholder="0.24">&nbsp;wt.&nbsp;%&nbsp;</b><br>
-				<b><label style="width:100px">Al<sub>2</sub>O<sub>3</sub></label><input id="al2o3" type="text" placeholder="0.12">&nbsp;wt.&nbsp;%&nbsp;</b><br>
-				<b><label style="width:100px">MnO</label><input id="mno" type="text" placeholder="0.24">&nbsp;wt.&nbsp;%&nbsp;</b><br>
-				<b><label style="width:100px">FeO</label><input id="feo" type="text" placeholder="0.30">&nbsp;wt.&nbsp;%&nbsp;</b><br>
-				<b><label style="width:100px">Fe<sub>2</sub>O<sub>3</sub></label><input id="fe2o3" type="text" placeholder="0.10">&nbsp;wt.&nbsp;%&nbsp;</b><br>
-				<b><label style="width:100px">Ce<sub>2</sub>O<sub>3</sub></label><input id="ce2o3" type="text" placeholder="0.20">&nbsp;wt.&nbsp;%&nbsp;</b><br>
-				<b><label style="width:100px">SrO</label><input id="sro" type="text" placeholder="0.20">&nbsp;wt.&nbsp;%&nbsp;</b><br>
-				<b><label style="width:100px">BaO</label><input id="bao" type="text" placeholder="0.06">&nbsp;wt.&nbsp;%&nbsp;</b>
+				<b><label style="width:100px">SiO<sub>2</sub></label><input id="sio2" type="text" placeholder="0">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label style="width:100px">Na<sub>2</sub>O</label><input id="na2o" type="text" placeholder="0">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label style="width:100px">MgO</label><input id="mgo" type="text" placeholder="0">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label style="width:100px">Al<sub>2</sub>O<sub>3</sub></label><input id="al2o3" type="text" placeholder="0">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label style="width:100px">MnO</label><input id="mno" type="text" placeholder="0">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label style="width:100px">FeO</label><input id="feo" type="text" placeholder="0">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<!--<b><label style="width:100px">Fe<sub>2</sub>O<sub>3</sub></label><input id="fe2o3" type="text" placeholder="0.10">&nbsp;wt.&nbsp;%&nbsp;</b><br>-->
+				<b><label style="width:100px">Ce<sub>2</sub>O<sub>3</sub></label><input id="ce2o3" type="text" placeholder="0">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label style="width:100px">SrO</label><input id="sro" type="text" placeholder="0">&nbsp;wt.&nbsp;%&nbsp;</b><br>
+				<b><label style="width:100px">BaO</label><input id="bao" type="text" placeholder="0">&nbsp;wt.&nbsp;%&nbsp;</b><br><br>
 			</small>
 		</div>
 		<p><small><i>
@@ -197,16 +197,17 @@
 		<button class="Calculate"><i><b>Calculate!</b></i></button><p>
 		<span>Chemical formula: Ca<sub>10</sub>(PO<sub>4</sub>)<sub>6</sub>X<sub>2</sub></span><br>
 		<p>
-		<b><label style="width:100px">Ca</label><span id="ca_out" class="output">0</span></b><br>
-		<b><label style="width:100px">P</label><span id="p_out" class="output">0</span></b><br>
-		<b><label style="width:100px">F</label><span id="f_out" class="output">0</span></b><br>
-		<b><label style="width:100px">Cl</label><span id="cl_out" class="output">0</span></b><br>
-		<br>
+		<b><label style="width:100px">Ca (a.p.f.u)</label><span id="ca_out" class="output">0</span></b><br>
+		<b><label style="width:100px">P (a.p.f.u)</label><span id="p_out" class="output">0</span></b><br>
+		<b><label style="width:100px">F (a.p.f.u)</label><span id="f_out" class="output">0</span></b><br>
+		<b><label style="width:100px">Cl (a.p.f.u)</label><span id="cl_out" class="output">0</span></b><br>
+		<br><span>Mole Fraction</span><br>
 		<b><label style="width:100px">X<sub>F</sub></label><span id="xf" class="output">0</span></b><br>
 		<b><label style="width:100px">X<sub>Cl</sub></label><span id="xcl" class="output">0</span></b><br>
 		<b><label style="width:100px">X<sub>OH</sub></label><span id="xoh_m" class="output">0</span></b><br>
 		<b><label style="width:100px">X<sub>OH</sub>(calc)<sup>**</sup></label><span id="xoh_c" class="output">0</span></b><br>
-		<b><label style="width:100px">H<sub>2</sub>O(calc)<sup>**</sup></label><span id="H2O_c" class="output">0</span></b><p>
+		<!--<b><label style="width:100px">H<sub>2</sub>O(calc)<sup>**</sup></label><span id="H2O_c" class="output">0</span></b><p>-->
+		<p>
 		<small><i><sup>**</sup>Calculated based on stoichimeotry</i></small>
 		<br><br><br><br><br><br><br>
 	</div>
@@ -223,15 +224,17 @@
 		<i>Volatiles in magmas<sup>2</sup> constrained using other methods (To calculate H<sub>2</sub>O in magmas, you need to fill in at least one boxes below)</i>
 		<small class="volatie">
 			<div class="col" style="width:30%">
-				<b><label style="width:100px">F</label><input id="f2" type="text" value="1000">&nbsp;ppm&emsp;</b><br>
-				<b><label style="width:100px">Cl</label><input id="cl2" type="text" value="2500">&nbsp;ppm&emsp;</b><br>
+				<b><label style="width:100px">F</label><input id="f2" type="text" placeholder="1000">&nbsp;ppm&emsp;</b><br>
+				<b><label style="width:100px">Cl</label><input id="cl2" type="text" placeholder="2500">&nbsp;ppm&emsp;</b><br>
 				<b><label style="width:100px">CO<sub>2</sub></label><input id="co22" type="text" placeholder="500">&nbsp;ppm&emsp;</b>
 			</div>
 			<div class="col" style="width:70%">
 				<button class="Compute"><i><b>Compute!</b></i></button>
 			</div>
 		</small>
-		<div class="compute_output"></div>
+		<div style="clear:both"></div>
+		<div class="col" id="compute_output" style="width:60%"></div>
+		<div class="col" id="missing" style="width:40%;color:red"></div>
 	</div>
 	<p>
 	<a id="doc" href="">Documents on web services that support this page</a><br>
