@@ -44,13 +44,14 @@ $(function() {
 		var sro = parseFloat($('#sro').val());
 		var bao = parseFloat($('#bao').val());
 		var H2OAp  = parseFloat($('#h2o').val());
+
+	    if (typeof x_oh_m == "undefined"){
+	    	alert("Please Calculate first before Compute");
+	    }else if (!isNaN(parseFloat(FAp)) && !isNaN(parseFloat(ClAp)) && !isNaN(parseFloat(T)) && !isNaN(parseFloat(P)) && !isNaN(parseFloat(cao)) && !isNaN(parseFloat(p2o5))){
 		if (isNaN(parseFloat(H2OAp))){
 			// When H2O is not measured
 			H2OAp = H2O_c;
 		}
-	    if (typeof x_oh_m == "undefined"){
-	    	alert("Please Calculate! first before Compute!");
-	    }else if (!isNaN(parseFloat(FAp)) && !isNaN(parseFloat(ClAp)) && !isNaN(parseFloat(T)) && !isNaN(parseFloat(P)) && !isNaN(parseFloat(cao)) && !isNaN(parseFloat(p2o5))){
 	    	// calculate exchange coefficients of Kd_OHCl,Kd_OHF, Kd_ClF
 	    	R=8.314; // gas constant
 	    	T_K=T+273.15; // Convert T_C to Kelvin
@@ -134,7 +135,7 @@ $(function() {
 	    	var html = '\
 	    		<hr>\
 	    		<div class="zone">\
-	    			<div class="col" style="width:30%">\
+	    			<div class="col" style="width:50%">\
 	    				<b>Exchange coefficients</b><p>\
 	    				<small><b>\
 	    					<span style="width:100px">K<sub>D</sub>(OH-Cl)</span><span id="Kd_OHCl" class="output">0</span><br>\
@@ -142,7 +143,7 @@ $(function() {
 	    					<span style="width:100px">K<sub>D</sub>(Cl-F)</span><span id="Kd_ClF" class="output">0</span>\
 	    				</b></small><p>\
 	    			</div>\
-	    			<div class="col" style="width:70%">\
+	    			<div class="col" style="width:50%">\
 	    				<b>Activity coefficients</b><p>\
 	    				<small><b>\
 	    					<span style="width:80px"><sub style="font-size:15px">γ</sub>(OH)<sub>Ap</sub></span><span id="gammaOH" class="output">0</span><br>\
