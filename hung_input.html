@@ -146,10 +146,8 @@
 	</small></div>
 	<div class="Instruction">
 		<b>Instruction:<br></b>
-		This model aims to calculate volatile abundances in magmas using volatile compositions of apatite. i.e: F, Cl, H<sub>2</sub>O, and CO<sub>2</sub> (optional).<br>
-		1. Direct measurements on F, Cl, and H<sub>2</sub>O concentrations in apatite are preferred for calculation.<br>
-		2. Presures and Temperatures are also required for calculation, where temperature has larger effect on the calculated results (e.g. K<sub>D</sub>) than pressure.<br>
-		Equation for calculating exchange coefficient (K<sub>D</sub>) and activity coefficient (γ) were described in paper shown above.
+		This model aims to calculate volatile abundances in magmas using volatile compositions of apatite, i.e: F, Cl, H<sub>2</sub>O, and CO<sub>2</sub> (optional), and temperatures based on equations of exchange coefficient (K<sub>D</sub>) in the paper shown above.<br>
+		<a href="">Detailed instructions.</a>
 	</div><br>
 	<b style="color:red"><br>Now you can enter inputs below:<br></b>
 	<i>Boxes marked as "required" need to be filled in for calculation, whereas those marked as "optional" can be left as empty if the values are unknown.</i><p>
@@ -195,7 +193,7 @@
 	<div style="border:1.5px solid pink;padding:10px;width:1000px;display:inline-block;">
 		<div id="plot" style="left:400px;position:absolute;"></div>
 		<button class="Calculate"><i><b>Calculate!</b></i></button><p>
-		<span>Chemical formula: Ca<sub>10</sub>(PO<sub>4</sub>)<sub>6</sub>X<sub>2</sub></span><br>
+		<span>Chemical formula: Ca<sub>10</sub>(PO<sub>4</sub>)<sub>6</sub>X<sub>2</sub></span><br><span>(26 anions)</span><br>
 		<p>
 		<b><label style="width:100px">Ca (a.p.f.u)</label><span id="ca_out" class="output">0</span></b><br>
 		<b><label style="width:100px">P (a.p.f.u)</label><span id="p_out" class="output">0</span></b><br>
@@ -219,7 +217,7 @@
 		<p>
 		<small class="p_t"> 
 			<b><label style="width:100px">T</label><input id="t" type="text" value="950">&nbsp;<sup>o</sup>C&emsp;&ensp;&nbsp;</b><br>
-			<b><label style="width:100px">P</label><input id="p" type="text" value="200" required>&nbsp;MPa&ensp;&nbsp;</b><p>
+			<!-- <b><label style="width:100px">P</label><input id="p" type="text" value="200" required>&nbsp;MPa&ensp;&nbsp;</b><p> -->
 		</small>
 		<i>Volatiles in magmas<sup>2</sup> constrained using other methods (To calculate H<sub>2</sub>O in magmas, you need to fill in at least one boxes below)</i>
 		<small class="volatie">
@@ -237,7 +235,7 @@
 		<div class="col" id="missing" style="width:40%;color:red"></div>
 	</div>
 	<p>
-	<a id="doc" href="">Documents on web services that support this page</a><br>
+	<!-- <a id="doc" href="">Documents on web services that support this page</a><br> -->
 	<span>If you encounter any problem using this webpage, please email me: weiranli1991@gmail.com</span>
 </body>
 </html>
