@@ -159,8 +159,6 @@ $(function() {
 					<label style="width:379px">Mole OH/F</label><span id="moleOHF" class="output">0</span><br>\
 					<label style="width:379px">Mole Cl/F</label><span id="moleClF" class="output">0</span><br>\
 					<br>\
-					<label style="width:379px">F calculated using K<sub>D</sub>(Cl-F)</label><span id="MeltF" class="output">0</span>&ensp;<span>ppm</span><br>\
-					<label style="width:379px">Cl calculated using K<sub>D</sub>(Cl-F)</label><span id="MeltCl" class="output">0</span>&ensp;<span>ppm</span><br>\
 					<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-Cl)<sub>&nbsp;(1)</sub></label><span id="MeltWater1" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>\
 					<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-F)<sub>&nbsp;(2)</sub></label><span id="MeltWater2" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>\
 					<label style="width:379px">CO<sub>2</sub> calculated using K<sub>D</sub>(H<sub>2</sub>O-CO<sub>2</sub>)<sub>&nbsp;(1)</sub></label><span id="MeltCO2_1" class="output">0</span>&ensp;<span>ppm</span><br>\
@@ -176,8 +174,6 @@ $(function() {
 	    	$("#gammaOH").html(Math.round(gammaOH*1000)/1000);
 	    	$("#gammaF").html(Math.round(gammaF*1000)/1000);
 	    	$("#gammaCl").html(Math.round(gammaCl*1000)/1000);
-	    	$("#MeltF").html(MeltF); // row1
-	    	$("#MeltCl").html(MeltCl); // row2
 	    	$("#MeltWater1").html(Math.round(MeltWater1*10)/10);
 	    	$("#MeltWater2").html(Math.round(MeltWater2*10)/10);
 		$("#MeltCO2_1").html(Math.round(MeltCO2_1));
@@ -187,11 +183,9 @@ $(function() {
 	    	$("#moleClF").html(Math.round(massClF*100)/100);
 
 		if (isNaN(MeltF) || isNaN(MeltCl)){
-			$("#missing").html("<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>Check the input box(es) marked in red color");
+			$("#missing").html("<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>Check the input box(es) marked in red color");
 			$("#f2").css("border", "2px solid red");
 			$("#cl2").css("border", "2px solid red");
-			$("#MeltF").html("Nil");
-			$("#MeltCl").html("Nil");
 			$("#MeltWater1").html("Nil");
 			$("#MeltWater2").html("Nil");
 			$("#MeltCO2_1").html("Nil");
@@ -199,7 +193,7 @@ $(function() {
 	    	} else if (isNaN(CO2Ap)){
 			$("#f2").css("border", "");
 			$("#cl2").css("border", "");
-			$("#missing").html("<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>Check the input box(es) marked in red color");
+			$("#missing").html("<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>Check the input box(es) marked in red color");
 			$("#co2").css("border", "2px solid red");
 			$("#MeltCO2_1").html("Nil");
 			$("#MeltCO2_2").html("Nil");
