@@ -158,7 +158,7 @@ $(function() {
 					<label style="width:379px">Mass Cl/F</label><span id="moleClF" class="output">0</span><br><br>\
 				</small>\
 					<hr>\
-					<input type="radio" name="foo" onclick="k2_1();" checked="checked">Basaltic magma<br><input type="radio" name="foo" onclick="k2_2();">Dacitec-rhyolitic magma<br><br>\
+					<input type="radio" name="foo" onclick="k2_1();" checked="checked">Basaltic magma<br><input type="radio" name="foo" onclick="k2_2();">Dacitic-rhyolitic magma<br><br>\
 				<small>\
 					<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-Cl)<sub>&nbsp;(1)</sub></label><span id="MeltWater1" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>\
 					<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-F)<sub>&nbsp;(2)</sub></label><span id="MeltWater2" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>\
