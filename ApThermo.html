@@ -149,7 +149,7 @@
 		This model aims to calculate volatile abundances in magmas using volatile compositions of apatite, i.e: F, Cl, H<sub>2</sub>O based on equations of exchange coefficient (K<sub>D</sub>) in the paper shown above.<br>
 		<a href="">Detailed instructions.</a>
 	</div><br>
-	<b style="color:red"><br>Now you can enter inputs below:<br></b>
+	<b style="color:red"><br>Enter the measured apatite compositions<br></b>
 	<i>Boxes marked as "required" need to be filled in for calculation, whereas those marked as "optional" can be left as empty if the values are unknown.</i><p>
 	<h3>Calculating chemical formula of apatite:</h3>
 	<div class="input">
@@ -192,8 +192,8 @@
 	</div>
 	<div style="border:1.5px solid pink;padding:10px;width:1000px;display:inline-block;">
 		<div id="plot" style="left:400px;position:absolute;"></div>
-		<button class="Calculate"><i><b>Calculate!</b></i></button><p>
-		<span>Chemical formula: Ca<sub>10</sub>(PO<sub>4</sub>)<sub>6</sub>X<sub>2</sub></span><br><span>(26 anions)</span><br>
+		<button class="Calculate"><i><b>Calculate structural formula of apatite</b></i></button><p>
+		<span>Chemical formula: Ca<sub>10</sub>(PO<sub>4</sub>)<sub>6</sub>X<sub>2</sub></span><br><span>(Using 26 Oxygen)</span><br>
 		<p>
 		<b><label style="width:100px">Ca (a.p.f.u)</label><span id="ca_out" class="output">0</span></b><br>
 		<b><label style="width:100px">P (a.p.f.u)</label><span id="p_out" class="output">0</span></b><br>
@@ -206,23 +206,23 @@
 		<b><label style="width:100px">X<sub>OH</sub>(calc)<sup>**</sup></label><span id="xoh_c" class="output">0</span></b><br>
 		<!--<b><label style="width:100px">H<sub>2</sub>O(calc)<sup>**</sup></label><span id="H2O_c" class="output">0</span></b><p>-->
 		<p>
-		<small><i><sup>**</sup>Calculated based on stoichimeotry</i></small>
+		<small><i><sup>**</sup>Calculated based on stoichimeotry (e.g Deer et al., 2013)</i></small>
 		<br><br><br><br><br><br><br>
 	</div>
 	<p>
 	<div class="input" style="border:1.5px solid skyblue;padding:10px;width:1000px;display:inline-block;">
-		<h3>Calculating volatile concentration in magmas:</h3>
+		<h3>Calculating H<sub>2</sub>O in melt using known melt Cl or F concentrations</h3>
 		<p>
 		<small class="p_t"> 
 			<b><label style="width:100px">T</label><input id="t" type="text" value="950">&nbsp;<sup>o</sup>C&emsp;&ensp;&nbsp;</b>&nbsp;<i><span style="color:red">(Required)</span></i><br>
 			<!-- <b><label style="width:100px">P</label><input id="p" type="text" value="200" required>&nbsp;MPa&ensp;&nbsp;</b><p> -->
 		</small>
-		<i>Volatiles in magmas<sup>2</sup> constrained using other methods (To calculate H<sub>2</sub>O in magmas, you need to fill in at least one boxes below)</i>
+		<i>Cl or F concetrations in magmas<sup>2</sup> constrained using other methods (To calculate H<sub>2</sub>O in magmas, you need to fill in at least one boxes below)</i>
 		<small class="volatie">
 			<div class="col" style="width:30%">
 				<b><label style="width:100px">F</label><input id="f2" type="text" placeholder="1000">&nbsp;ppm&emsp;</b><br>
 				<b><label style="width:100px">Cl</label><input id="cl2" type="text" placeholder="2500">&nbsp;ppm&emsp;</b><br>
-				<b><label style="width:100px">CO<sub>2</sub></label><input id="co22" type="text" placeholder="500">&nbsp;ppm&emsp;</b>
+				<!--<b><label style="width:100px">CO<sub>2</sub></label><input id="co22" type="text" placeholder="500">&nbsp;ppm&emsp;</b>-->
 			</div>
 			<div class="col" style="width:70%">
 				<button class="Compute"><i><b>Compute!</b></i></button>
