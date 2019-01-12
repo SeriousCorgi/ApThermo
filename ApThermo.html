@@ -6,6 +6,13 @@
 	<script charset="utf-8" src="script/jquery-3.3.1.min.js"></script>
 	<script charset="utf-8" src="script/ApThermo.js"></script>
 	<style>
+		body{
+			max-width: 960px;
+			margin: 0px auto;
+		}
+		body *{
+			font-family: Ubuntu;
+		}
 		h2.Apatite_header{
 			color: FireBrick;
 			text-align: center;
@@ -14,7 +21,7 @@
 			border: 1.5px solid black;
 			display: inline-block;
 			padding: 10px;
-			width: 1000px;
+			max-width: 100%;
 		}
 		.col{
 			float: left;
@@ -38,22 +45,24 @@
 			width: 38px;
 			border-radius: 5px;
 			text-align: right;
-			padding-right: 2px; 
+			padding-right: 2px;
 			font-family: Arial;
 		}
 		button.Compute{
 			font-size: 20px;
 			background: #3e54a5;
+			cursor: pointer;
 			padding: 5px;
-			width: 110px;
 			color: white;
 		}
 		button.Calculate{
+			position: relative;
 			font-size: 20px;
 			background: #bf9fc7;
+			cursor: pointer;
 			padding: 5px;
-			width: 110px;
 			color: white;
+			z-index: 2;
 		}
 		sup{
 			font-size: 10px;
@@ -135,6 +144,20 @@
 			width: 100%;
 			border: 1px dashed;
 		}
+		#compute_output{
+			position: relative;
+        }
+		.calculation-type{
+			position: absolute;
+			right: 90px;
+			bottom: 5px;
+		}
+		#plot{
+			position: absolute;
+			right: 0px;
+			bottom: -35px;
+			z-index: 1;
+		}
 	</style>
 	<title>Apatite Thermodynamic Model</title>
 </head>
@@ -153,7 +176,7 @@
 	<i>Boxes marked as "required" need to be filled in for calculation, whereas those marked as "optional" can be left as empty if the values are unknown.</i><p>
 	<h3>Calculating chemical formula of apatite:</h3>
 	<div class="input">
-		<div class="col" style="width:20%;padding-left:1%">
+		<div class="col" style="max-width:30%;padding-left:1%">
 			<i style="color:red">Required:</i>
 			<p>
 			<small>
@@ -170,7 +193,7 @@
 				<b><label style="width:100px">SO<sub>3</sub></label><input id="so3" type="text" placeholder="0">&nbsp;wt.&nbsp;%&nbsp;</b>
 			</small>
 		</div>
-		<div class="col" style="width:79%">
+		<div class="col">
 			<i>Optional:</i>
 			<p>
 			<small>
@@ -186,13 +209,14 @@
 				<b><label style="width:100px">BaO</label><input id="bao" type="text" placeholder="0">&nbsp;wt.&nbsp;%&nbsp;</b><br><br>
 			</small>
 		</div>
+		<div style="clear:both"></div>
 		<p><small><i>
 			<sup>*</sup>If H<sub>2</sub>O in apatite was not directly measured, leave this box empty, so that our model will calculate it based on stoichiometry, assuming that only F, Cl and OH occupy the anion site.
 		</i></small></p>
 	</div>
-	<div style="border:1.5px solid pink;padding:10px;width:1000px;display:inline-block;">
-		<div id="plot" style="left:400px;position:absolute;"></div>
+	<div style="border:1.5px solid pink;padding:10px;max-width:100%;position:relative">
 		<button class="Calculate"><i><b>Calculate structural formula of apatite</b></i></button><p>
+		<div id="plot"></div>
 		<span>Chemical formula: Ca<sub>10</sub>(PO<sub>4</sub>)<sub>6</sub>X<sub>2</sub></span><br><span>(Using 26 Oxygen)</span><br>
 		<p>
 		<b><label style="width:100px">Ca (a.p.f.u)</label><span id="ca_out" class="output">0</span></b><br>
@@ -207,30 +231,53 @@
 		<!--<b><label style="width:100px">H<sub>2</sub>O(calc)<sup>**</sup></label><span id="H2O_c" class="output">0</span></b><p>-->
 		<p>
 		<small><i><sup>**</sup>Calculated based on stoichimeotry (e.g Deer et al., 2013)</i></small>
-		<br><br><br><br><br><br><br>
+		<br><br><br><br><br><br>
 	</div>
 	<p>
-	<div class="input" style="border:1.5px solid skyblue;padding:10px;width:1000px;display:inline-block;">
+	<div class="input" style="border:1.5px solid skyblue;padding:10px;max-width:100%;">
+		<div class="compute-button"><button class="Compute"><i><b>Compute!</b></i></button></div><p>
+		<div class="zone">
+    			<div class="col" style="max-width:33%">
+    				<b>Exchange coefficients</b><p>
+    				<small><b>
+    					<span style="width:100px">K<sub>D</sub>(OH-Cl)</span><span id="Kd_OHCl" class="output">0</span><br>
+    					<span style="width:100px">K<sub>D</sub>(OH-F)</span><span id="Kd_OHF" class="output">0</span><br>
+    					<span style="width:100px">K<sub>D</sub>(Cl-F)</span><span id="Kd_ClF" class="output">0</span>
+    				</b></small><p>
+    			</div>
+    			<div class="col" style="">
+    				<b>Activity coefficients</b><p>
+    				<small><b>
+    					<span style="width:80px"><sub style="font-size:15px">γ</sub>(OH)<sub>Ap</sub></span><span id="gammaOH" class="output">0</span><br>
+    					<span style="width:80px"><sub style="font-size:15px">γ</sub>(F)<sub>Ap</sub></span><span id="gammaF" class="output">0</span><br>
+    					<span style="width:80px"><sub style="font-size:15px">γ</sub>(Cl)<sub>Ap</sub></span><span id="gammaCl" class="output">0</span>
+    				</b></small><p>
+    			</div>
+    			<div style="clear:both"></div>
+    			<p>
+				<hr>
+    			<b>Calculated volatile ratios in melt using apatite:</b><p>
+			<b><small>
+				<label style="width:100px">Mole OH/Cl</label><span id="moleOHCl" class="output">0</span><br>
+				<label style="width:100px">Mole OH/F</label><span id="moleOHF" class="output">0</span><br>
+				<label style="width:100px">Mole Cl/F</label><span id="moleClF" class="output">0</span><br><br>
+			</small></b>
+		</div>
+		<hr>
 		<h3>Calculating H<sub>2</sub>O in melt using known melt Cl or F concentrations</h3>
 		<p>
-		<small class="p_t"> 
+		<small class="p_t">
 			<b><label style="width:100px">T</label><input id="t" type="text" value="950">&nbsp;<sup>o</sup>C&emsp;&ensp;&nbsp;</b>&nbsp;<i><span style="color:red">(Required)</span></i><br>
 			<!-- <b><label style="width:100px">P</label><input id="p" type="text" value="200" required>&nbsp;MPa&ensp;&nbsp;</b><p> -->
 		</small>
-		<i>Cl or F concetrations in magmas<sup>2</sup> constrained using other methods (To calculate H<sub>2</sub>O in magmas, you need to fill in at least one boxes below)</i>
+		<i>Cl or F concetrations in magmas<sup>2</sup> constrained using other methods (To calculate H<sub>2</sub>O in magmas, you need to fill in at least one boxes below)</i><p>
 		<small class="volatie">
-			<div class="col" style="width:30%">
-				<b><label style="width:100px">F</label><input id="f2" type="text" placeholder="1000">&nbsp;ppm&emsp;</b><br>
-				<b><label style="width:100px">Cl</label><input id="cl2" type="text" placeholder="2500">&nbsp;ppm&emsp;</b><br>
-				<!--<b><label style="width:100px">CO<sub>2</sub></label><input id="co22" type="text" placeholder="500">&nbsp;ppm&emsp;</b>-->
-			</div>
-			<div class="col" style="width:70%">
-				<button class="Compute"><i><b>Compute!</b></i></button>
-			</div>
+			<b><label style="width:100px">F</label><input id="f2" type="text" placeholder="1000">&nbsp;ppm&emsp;</b><br>
+			<b><label style="width:100px">Cl</label><input id="cl2" type="text" placeholder="2500">&nbsp;ppm&emsp;</b><br>
+			<!--<b><label style="width:100px">CO<sub>2</sub></label><input id="co22" type="text" placeholder="500">&nbsp;ppm&emsp;</b>-->
 		</small>
 		<div style="clear:both"></div>
-		<div class="col" id="compute_output" style="width:60%"></div>
-		<div class="col" id="missing" style="width:40%;color:red"></div>
+		<div id="compute_output"></div>
 	</div>
 	<p>
 	<!-- <a id="doc" href="">Documents on web services that support this page</a><br> -->

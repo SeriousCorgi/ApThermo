@@ -1,7 +1,7 @@
 //
 SiO2=0;Ce2O3=0;FeO=0;
 MgO=0;MnO=0;Na2O=0;SrO=0;
-// coefficeints for calculation: atomic mass of elements/compounds 
+// coefficeints for calculation: atomic mass of elements/compounds
 MASSF=19;MASSCl=35.45;MASSH2O= 16+1*2;
 MASSCaO=56.08;MASSP2O5=141.94;
 MASSSO3=80.06;MASSCO2=44;
@@ -80,7 +80,7 @@ $(function() {
 	    	gammaCl= Math.exp(1000*((x_oh*(1-x_cl)*Wg_ClOH+x_f*(1-x_cl)*Wg_FCl-x_f*x_oh*Wg_FOH))/(R*T_K));
 	    	// Output volatiles in magmas
 	    	// row3: H2O calculated using Kd(OH-Cl) (1)
-	    	// calculate mole OH in melt and total H2O in wt//  
+	    	// calculate mole OH in melt and total H2O in wt//
 	    	OHCl_melt=(x_oh/x_cl)/Kd_OHCl; // melt OH/Cl in molar ratios
 	    	OHF_melt=(x_oh/x_f)/Kd_OHF; // melt OH/F in molar ratios
 	    	ClF_melt = (x_cl/x_f)/Kd_ClF; // melt Cl/F in molar ratios
@@ -91,9 +91,9 @@ $(function() {
 	    	moleF_melt =((MeltF/10000)/MassF)/(100/meanM); // mole F in melt (input F in ppm)
 	    	moleOH_melt2 = moleF_melt*OHF_melt;
 
-	    	massOHCl = OHCl_melt;
-	    	massOHF = OHF_melt;
-	    	massClF = ClF_melt*MassCl/MassF;
+	    	moleOHCl = OHCl_melt;
+	    	moleOHF = OHF_melt;
+	    	moleClF = ClF_melt;
 
 	    	// solve equation that involves moleOH and total H2O using Cl
 	    	// k2 = Math.exp(0.641 - 2704.4/T_K);
@@ -104,8 +104,8 @@ $(function() {
 	    	m1 = eqn1(moleOH_melt1);
 	    	moleH2O_melt1 = m1;
 	    	console.log();
-	    	//moleH2O_melt1=Math.min(Math.eval(m1));// choose the smaller value of the 2 solutions; The larger solution is >50wt.// 
-	    	// convert total mole water to total water in wt// 
+	    	//moleH2O_melt1=Math.min(Math.eval(m1));// choose the smaller value of the 2 solutions; The larger solution is >50wt.//
+	    	// convert total mole water to total water in wt//
 	    	//eqn3=moleH2O_melt1 == (x/MassH2O)/(x/MassH2O+(1-x)/meanM);
 	    	//n1=solve(eqn3,x); // n is the solution of equation=mass fraction of total water in melt
 	    	n1 = eqn2(moleH2O_melt1);
@@ -117,7 +117,7 @@ $(function() {
 	    	//m2=solve(eqn2,x);
 	    	m2 = eqn1(moleOH_melt2);
 	    	moleH2O_melt2 = m2;
-	    	//moleH2O_melt2=Math.min(Math.eval(m2)); 
+	    	//moleH2O_melt2=Math.min(Math.eval(m2));
 	    	//eqn4=moleH2O_melt2 == (x/MassH2O)/(x/MassH2O+(1-x)/meanM);
 	    	//n2=solve(eqn4,x);
 	    	n2 = eqn2(moleH2O_melt2);
@@ -131,41 +131,18 @@ $(function() {
 			MeltCO2_2 = MeltWater2/((H2OAp/CO2Ap)/KD)*10000;
 
 	    	var html = '\
-	    		<hr>\
-	    		<div class="zone">\
-	    			<div class="col" style="width:50%">\
-	    				<b>Exchange coefficients</b><p>\
-	    				<small><b>\
-	    					<span style="width:100px">K<sub>D</sub>(OH-Cl)</span><span id="Kd_OHCl" class="output">0</span><br>\
-	    					<span style="width:100px">K<sub>D</sub>(OH-F)</span><span id="Kd_OHF" class="output">0</span><br>\
-	    					<span style="width:100px">K<sub>D</sub>(Cl-F)</span><span id="Kd_ClF" class="output">0</span>\
-	    				</b></small><p>\
-	    			</div>\
-	    			<div class="col" style="width:50%">\
-	    				<b>Activity coefficients</b><p>\
-	    				<small><b>\
-	    					<span style="width:80px"><sub style="font-size:15px">γ</sub>(OH)<sub>Ap</sub></span><span id="gammaOH" class="output">0</span><br>\
-	    					<span style="width:80px"><sub style="font-size:15px">γ</sub>(F)<sub>Ap</sub></span><span id="gammaF" class="output">0</span><br>\
-	    					<span style="width:80px"><sub style="font-size:15px">γ</sub>(Cl)<sub>Ap</sub></span><span id="gammaCl" class="output">0</span>\
-	    				</b></small><p>\
-	    			</div>\
-	    			<div style="clear:both"></div>\
-	    			<p>\
-	    			<b>Calculate volatiles in magmas using apatite:</b><p>\
-				<b><small>\
-					<label style="width:379px">Mole OH/Cl</label><span id="moleOHCl" class="output">0</span><br>\
-					<label style="width:379px">Mole OH/F</label><span id="moleOHF" class="output">0</span><br>\
-					<label style="width:379px">Mass Cl/F</label><span id="moleClF" class="output">0</span><br><br>\
-				</small>\
-					<hr>\
-					<input type="radio" name="foo" onclick="k2_1();" checked="checked">Basaltic magma<br><input type="radio" name="foo" onclick="k2_2();">Dacitic-rhyolitic magma<br><br>\
-				<small>\
-					<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-Cl)<sub>&nbsp;(1)</sub></label><span id="MeltWater1" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>\
-					<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-F)<sub>&nbsp;(2)</sub></label><span id="MeltWater2" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>\
-					<label style="width:379px">CO<sub>2</sub> calculated using K<sub>D</sub>(H<sub>2</sub>O-CO<sub>2</sub>)<sub>&nbsp;(1)</sub></label><span id="MeltCO2_1" class="output">0</span>&ensp;<span>ppm</span><br>\
-					<label style="width:379px">CO<sub>2</sub> calculated using K<sub>D</sub>(H<sub>2</sub>O-CO<sub>2</sub>)<sub>&nbsp;(2)</sub></label><span id="MeltCO2_2" class="output">0</span>&ensp;<span>ppm</span><br></p>\
-				</small></b>\
+				<div class="calculation-output">\
+					<b>\
+						<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-Cl)<sub>&nbsp;(1)</sub></label><span id="MeltWater1" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>\
+						<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-F)<sub>&nbsp;(2)</sub></label><span id="MeltWater2" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>\
+						<label style="width:379px">CO<sub>2</sub> calculated using K<sub>D</sub>(H<sub>2</sub>O-CO<sub>2</sub>)<sub>&nbsp;(1)</sub></label><span id="MeltCO2_1" class="output">0</span>&ensp;<span>ppm</span><br>\
+						<label style="width:379px">CO<sub>2</sub> calculated using K<sub>D</sub>(H<sub>2</sub>O-CO<sub>2</sub>)<sub>&nbsp;(2)</sub></label><span id="MeltCO2_2" class="output">0</span>&ensp;<span>ppm</span><br></p>\
+					</b>\
 	    		</div>\
+	    		<div class="calculation-type">\
+					<input type="radio" name="foo" onclick="k2_1();" checked="checked">Basaltic magma<br><input type="radio" name="foo" onclick="k2_2();">Dacitic-rhyolitic magma<br><br>\
+					<div id="missing" style="color:red"></div>\
+				</div>\
 	    	';
 
 	    	$("#compute_output").html(html);
@@ -180,12 +157,12 @@ $(function() {
 	    	$("#MeltWater2").html(Math.round(MeltWater2*10)/10);
 			$("#MeltCO2_1").html(Math.round(MeltCO2_1));
 			$("#MeltCO2_2").html(Math.round(MeltCO2_2));
-	    	$("#moleOHCl").html(Math.round(massOHCl*100)/100);
-	    	$("#moleOHF").html(Math.round(massOHF*100)/100);
-	    	$("#moleClF").html(Math.round(massClF*100)/100);
+	    	$("#moleOHCl").html(Math.round(moleOHCl*100)/100);
+	    	$("#moleOHF").html(Math.round(moleOHF*100)/100);
+	    	$("#moleClF").html(Math.round(moleClF*100)/100);
 
 	    	checkMissing();
-		
+
 	    	// location.href='hung_output.html';
 	    }else{
 	    	alert("Please fill in the Required fields!!");
@@ -255,9 +232,9 @@ $(function() {
 		if(!isNaN(FAp) && !isNaN(ClAp) && !isNaN(cao) && !isNaN(p2o5)) {
 			// Stoichiometry Calculation
 			mF = FAp/MASSF;
-			mCl = ClAp/MASSCl; 
+			mCl = ClAp/MASSCl;
 			mCaO = cao/MASSCaO;
-			mP2O5 = p2o5/MASSP2O5; 
+			mP2O5 = p2o5/MASSP2O5;
 			mSO3 = so3/MASSSO3;
 			mCO2 = co2/MASSCO2;
 			mSiO2 = sio2/MASSSiO2;
@@ -314,14 +291,14 @@ $(function() {
 			}else{
 				x_f = x_f_c;
 				x_cl = x_cl_c;
-				x_oh = x_oh_c; 
+				x_oh = x_oh_c;
 			}
 			H2O_c = (x_oh_c/2)/x_f * MASSH2O/MASSF;
-			
+
 			// Display
-			$("#ca_out").html(Math.round(nCa * 1000) / 1000);	
-			$("#p_out").html(Math.round(nP * 1000) / 1000);	
-			$("#f_out").html(Math.round(nF * 1000) / 1000);	
+			$("#ca_out").html(Math.round(nCa * 1000) / 1000);
+			$("#p_out").html(Math.round(nP * 1000) / 1000);
+			$("#f_out").html(Math.round(nF * 1000) / 1000);
 			$("#cl_out").html(Math.round(nCl * 1000) / 1000);
 			$("#xf").html(Math.round(x_f * 1000) / 1000);
 			$("#xcl").html(Math.round(x_cl * 1000) / 1000);
@@ -345,7 +322,7 @@ function ternaryPlot(selector, userOpt ) {
 	};
 
 	var opt = {
-		width:700,
+		width:600,
 		height:500,
 		side: 500,
 		axis_labels:['A','B','C'],
@@ -368,7 +345,7 @@ function ternaryPlot(selector, userOpt ) {
 
 	var corners = [
 		[opt.margin.left, h + opt.margin.top], // a
-		[ w + opt.margin.left, h + opt.margin.top], //b 
+		[ w + opt.margin.left, h + opt.margin.top], //b
 		[(w/2) + opt.margin.left, opt.margin.top] ] //c
 
 	//axis names
@@ -386,7 +363,7 @@ function ternaryPlot(selector, userOpt ) {
 					if(i===0) return 'end';
 					if(i===2) return 'middle';
 					return 'start';
-					
+
 				})
 				.attr('transform', function(d,i){
 					var theta = 0;
@@ -404,7 +381,7 @@ function ternaryPlot(selector, userOpt ) {
 	//(TODO: this seems a bit verbose/ repetitive!);
 	var n = opt.axis_ticks.length;
 	if(opt.minor_axis_ticks){
-		opt.minor_axis_ticks.forEach(function(v) {	
+		opt.minor_axis_ticks.forEach(function(v) {
 			var coord1 = coord( [v, 0, 100-v] );
 			var coord2 = coord( [v, 100-v, 0] );
 			var coord3 = coord( [0, 100-v, v] );
@@ -412,19 +389,19 @@ function ternaryPlot(selector, userOpt ) {
 
 			axes.append("line")
 				.attr( lineAttributes(coord1, coord2) )
-				.classed('a-axis minor-tick', true);	
+				.classed('a-axis minor-tick', true);
 
 			axes.append("line")
 				.attr( lineAttributes(coord2, coord3) )
-				.classed('b-axis minor-tick', true);	
+				.classed('b-axis minor-tick', true);
 
 			axes.append("line")
 				.attr( lineAttributes(coord3, coord4) )
-				.classed('c-axis minor-tick', true);		
+				.classed('c-axis minor-tick', true);
 		});
 	}
 
-	opt.axis_ticks.forEach(function(v) {	
+	opt.axis_ticks.forEach(function(v) {
 		var coord1 = coord( [v, 0, 100-v] );
 		var coord2 = coord( [v, 100-v, 0] );
 		var coord3 = coord( [0, 100-v, v] );
@@ -432,15 +409,15 @@ function ternaryPlot(selector, userOpt ) {
 
 		axes.append("line")
 			.attr( lineAttributes(coord1, coord2) )
-			.classed('a-axis tick', true);	
+			.classed('a-axis tick', true);
 
 		axes.append("line")
 			.attr( lineAttributes(coord2, coord3) )
-			.classed('b-axis tick', true);	
+			.classed('b-axis tick', true);
 
 		axes.append("line")
 			.attr( lineAttributes(coord3, coord4) )
-			.classed('c-axis tick', true);	
+			.classed('c-axis tick', true);
 
 
 		//tick labels
@@ -480,7 +457,7 @@ function ternaryPlot(selector, userOpt ) {
 	}
 
 	function coord(arr){
-		var a = arr[0], b = arr[1], c = arr[2]; 
+		var a = arr[0], b = arr[1], c = arr[2];
 		var sum, pos = [0,0];
 	    sum = a + b + c;
 	    if(sum !== 0) {
@@ -567,8 +544,8 @@ function k2_1() {
 	m1 = eqn1(moleOH_melt1);
 	moleH2O_melt1 = m1;
 	console.log();
-	//moleH2O_melt1=Math.min(Math.eval(m1));// choose the smaller value of the 2 solutions; The larger solution is >50wt.// 
-	// convert total mole water to total water in wt// 
+	//moleH2O_melt1=Math.min(Math.eval(m1));// choose the smaller value of the 2 solutions; The larger solution is >50wt.//
+	// convert total mole water to total water in wt//
 	//eqn3=moleH2O_melt1 == (x/MassH2O)/(x/MassH2O+(1-x)/meanM);
 	//n1=solve(eqn3,x); // n is the solution of equation=mass fraction of total water in melt
 	n1 = eqn2(moleH2O_melt1);
@@ -580,7 +557,7 @@ function k2_1() {
 	//m2=solve(eqn2,x);
 	m2 = eqn1(moleOH_melt2);
 	moleH2O_melt2 = m2;
-	//moleH2O_melt2=Math.min(Math.eval(m2)); 
+	//moleH2O_melt2=Math.min(Math.eval(m2));
 	//eqn4=moleH2O_melt2 == (x/MassH2O)/(x/MassH2O+(1-x)/meanM);
 	//n2=solve(eqn4,x);
 	n2 = eqn2(moleH2O_melt2);
@@ -609,8 +586,8 @@ function k2_2() {
 	m1 = eqn1(moleOH_melt1);
 	moleH2O_melt1 = m1;
 	console.log();
-	//moleH2O_melt1=Math.min(Math.eval(m1));// choose the smaller value of the 2 solutions; The larger solution is >50wt.// 
-	// convert total mole water to total water in wt// 
+	//moleH2O_melt1=Math.min(Math.eval(m1));// choose the smaller value of the 2 solutions; The larger solution is >50wt.//
+	// convert total mole water to total water in wt//
 	//eqn3=moleH2O_melt1 == (x/MassH2O)/(x/MassH2O+(1-x)/meanM);
 	//n1=solve(eqn3,x); // n is the solution of equation=mass fraction of total water in melt
 	n1 = eqn2(moleH2O_melt1);
@@ -622,7 +599,7 @@ function k2_2() {
 	//m2=solve(eqn2,x);
 	m2 = eqn1(moleOH_melt2);
 	moleH2O_melt2 = m2;
-	//moleH2O_melt2=Math.min(Math.eval(m2)); 
+	//moleH2O_melt2=Math.min(Math.eval(m2));
 	//eqn4=moleH2O_melt2 == (x/MassH2O)/(x/MassH2O+(1-x)/meanM);
 	//n2=solve(eqn4,x);
 	n2 = eqn2(moleH2O_melt2);
@@ -645,7 +622,7 @@ function k2_2() {
 
 function checkMissing() {
 	if (isNaN(MeltF) || isNaN(MeltCl)){
-		$("#missing").html("<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>Check the input box(es) marked in red color");
+		$("#missing").html("Check the input box(es) marked in red color");
 		$("#f2").css("border", "2px solid red");
 		$("#cl2").css("border", "2px solid red");
 		$("#MeltWater1").html("Nil");
@@ -655,7 +632,7 @@ function checkMissing() {
     	} else if (isNaN(CO2Ap)){
 		$("#f2").css("border", "");
 		$("#cl2").css("border", "");
-		$("#missing").html("<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>Check the input box(es) marked in red color");
+		$("#missing").html("Check the input box(es) marked in red color");
 		$("#co2").css("border", "2px solid red");
 		$("#MeltCO2_1").html("Nil");
 		$("#MeltCO2_2").html("Nil");
