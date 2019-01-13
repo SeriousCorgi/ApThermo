@@ -131,18 +131,17 @@ $(function() {
 			MeltCO2_2 = MeltWater2/((H2OAp/CO2Ap)/KD)*10000;
 
 	    	var html = '\
-				<div class="calculation-output">\
-					<b>\
-						<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-Cl)<sub>&nbsp;(1)</sub></label><span id="MeltWater1" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>\
-						<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-F)<sub>&nbsp;(2)</sub></label><span id="MeltWater2" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>\
-						<label style="width:379px">CO<sub>2</sub> calculated using K<sub>D</sub>(H<sub>2</sub>O-CO<sub>2</sub>)<sub>&nbsp;(1)</sub></label><span id="MeltCO2_1" class="output">0</span>&ensp;<span>ppm</span><br>\
-						<label style="width:379px">CO<sub>2</sub> calculated using K<sub>D</sub>(H<sub>2</sub>O-CO<sub>2</sub>)<sub>&nbsp;(2)</sub></label><span id="MeltCO2_2" class="output">0</span>&ensp;<span>ppm</span><br></p>\
-					</b>\
-	    		</div>\
 	    		<div class="calculation-type">\
 					<input type="radio" name="foo" onclick="k2_1();" checked="checked">Basaltic magma<br><input type="radio" name="foo" onclick="k2_2();">Dacitic-rhyolitic magma<br><br>\
-					<div id="missing" style="color:red"></div>\
 				</div>\
+				<div class="calculation-output">\
+					<b>\
+						<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-Cl)<sub>&nbsp;(1)</sub></label><span id="MeltWater1" class="output">0</span>&ensp;<span>wt.&nbsp;%</span>\
+						<div id="missing"></div>\
+						<br>\
+						<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-F)<sub>&nbsp;(2)</sub></label><span id="MeltWater2" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>\
+					</b>\
+	    		</div>\
 	    	';
 
 	    	$("#compute_output").html(html);
@@ -155,8 +154,8 @@ $(function() {
 	    	$("#gammaCl").html(Math.round(gammaCl*100)/100);
 	    	$("#MeltWater1").html(Math.round(MeltWater1*10)/10);
 	    	$("#MeltWater2").html(Math.round(MeltWater2*10)/10);
-			$("#MeltCO2_1").html(Math.round(MeltCO2_1));
-			$("#MeltCO2_2").html(Math.round(MeltCO2_2));
+			// $("#MeltCO2_1").html(Math.round(MeltCO2_1));
+			// $("#MeltCO2_2").html(Math.round(MeltCO2_2));
 	    	$("#moleOHCl").html(Math.round(moleOHCl*100)/100);
 	    	$("#moleOHF").html(Math.round(moleOHF*100)/100);
 	    	$("#moleClF").html(Math.round(moleClF*100)/100);
@@ -627,17 +626,7 @@ function checkMissing() {
 		$("#cl2").css("border", "2px solid red");
 		$("#MeltWater1").html("Nil");
 		$("#MeltWater2").html("Nil");
-		$("#MeltCO2_1").html("Nil");
-		$("#MeltCO2_2").html("Nil");
-    	} else if (isNaN(CO2Ap)){
-		$("#f2").css("border", "");
-		$("#cl2").css("border", "");
-		$("#missing").html("Check the input box(es) marked in red color");
-		$("#co2").css("border", "2px solid red");
-		$("#MeltCO2_1").html("Nil");
-		$("#MeltCO2_2").html("Nil");
 	} else{
-		$("#co2").css("border", "");
 		$("#f2").css("border", "");
 		$("#cl2").css("border", "");
 		$("#missing").html("");
