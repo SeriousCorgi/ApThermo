@@ -21,153 +21,6 @@ $(function() {
 	};
 	tp = ternaryPlot( '#plot', plot_opts );
 
-	$(".Compute").click(function(e) {
-		FAp  = parseFloat($('#f').val());
-		ClAp  = parseFloat($('#cl').val());
-		CO2Ap  = parseFloat($('#co2').val());
-		T  = parseFloat($('#t').val());
-		// var P  = parseFloat($('#p').val());
-		MeltF = parseFloat($('#f2').val());
-		MeltCl  = parseFloat($('#cl2').val());
-		vol_co2 = parseFloat($('#co22').val());
-		cao = parseFloat($('#cao').val());
-		p2o5 = parseFloat($('#p2o5').val());
-		so3 = parseFloat($('#so3').val());
-		sio2 = parseFloat($('#sio2').val());
-		na2o = parseFloat($('#na2o').val());
-		mgo = parseFloat($('#mgo').val());
-		al2o3 = parseFloat($('#al2o3').val());
-		mno = parseFloat($('#mno').val());
-		feo = parseFloat($('#feo').val());
-		//var fe2o3 = parseFloat($('#fe2o3').val());
-		ce2o3 = parseFloat($('#ce2o3').val());
-		sro = parseFloat($('#sro').val());
-		bao = parseFloat($('#bao').val());
-		H2OAp  = parseFloat($('#h2o').val());
-
-	    if (typeof x_oh_m == "undefined"){
-	    	alert("Please Calculate first before Compute");
-	    }else if (!isNaN(parseFloat(FAp)) && !isNaN(parseFloat(ClAp)) && !isNaN(parseFloat(T)) && !isNaN(parseFloat(cao)) && !isNaN(parseFloat(p2o5))){
-		if (isNaN(parseFloat(H2OAp))){
-			// When H2O is not measured
-			H2OAp = H2O_c;
-		}
-	    	// calculate exchange coefficients of Kd_OHCl,Kd_OHF, Kd_ClF
-	    	R=8.314; // gas constant
-	    	T_K=T+273.15; // Convert T_C to Kelvin
-	    	deltaG_ClOH = 73.305-0.034*T_K; // ERROR: k:0.002 ; b:2.7
-	    	deltaG_FOH = 97.452-0.042*T_K; // ERROR: k:0.005 ; b:6.9
-	    	Wg_ClOH=4; // calculated Wg of Cl-OH, kJ/mol
-	    	Wg_FCl=13; // calculated Wg of F-Cl, kJ/mol
-	    	Wg_FOH=5; // calculated Wg of F-OH, kJ/mol
-
-	    	// calculate mole fraction of FAp, HAp, ClAp
-	    	MassCl=35.45; // molar mass of Cl
-	    	MassF=18.998; // molar mass of Cl
-	    	MassH2O=18.015; // molar mass of h2o
-
-	    	if (isNaN(x_oh_m) || x_oh_m == 0){
-	    		x_oh = x_oh_c;
-	    	} else {
-	    		x_oh = x_oh_m;
-	    	}
-	    	// Output coefficients
-	    	Kd_OHCl= Math.exp((1000*(-deltaG_ClOH-((x_cl-x_oh)*Wg_ClOH+x_f*(Wg_FOH-Wg_FCl))))/(R*T_K));
-	    	Kd_OHF = Math.exp(1000*(-deltaG_FOH-((x_f-x_oh)*Wg_FOH+x_cl*(Wg_ClOH-Wg_FCl)))/(R*T_K));
-	    	Kd_ClF = Kd_OHF/Kd_OHCl;
-	    	gammaOH= Math.exp(1000*((x_cl*(1-x_oh)*Wg_ClOH+x_f*(1-x_oh)*Wg_FOH-x_cl*x_f*Wg_FCl))/(R*T_K));
-	    	gammaF = Math.exp(1000*((x_cl*(1-x_f)*Wg_FCl+x_oh*(1-x_f)*Wg_FOH-x_cl*x_oh*Wg_ClOH))/(R*T_K));
-	    	gammaCl= Math.exp(1000*((x_oh*(1-x_cl)*Wg_ClOH+x_f*(1-x_cl)*Wg_FCl-x_f*x_oh*Wg_FOH))/(R*T_K));
-	    	// Output volatiles in magmas
-	    	// row3: H2O calculated using Kd(OH-Cl) (1)
-	    	// calculate mole OH in melt and total H2O in wt//
-	    	OHCl_melt=(x_oh/x_cl)/Kd_OHCl; // melt OH/Cl in molar ratios
-	    	OHF_melt=(x_oh/x_f)/Kd_OHF; // melt OH/F in molar ratios
-	    	ClF_melt = (x_cl/x_f)/Kd_ClF; // melt Cl/F in molar ratios
-
-	    	meanM=33; // molar mass of studied melt
-	    	moleCl_melt =((MeltCl/10000)/MassCl)/(100/meanM); // mole Cl in melt (input Cl in ppm)
-	    	moleOH_melt1 = moleCl_melt*OHCl_melt
-	    	moleF_melt =((MeltF/10000)/MassF)/(100/meanM); // mole F in melt (input F in ppm)
-	    	moleOH_melt2 = moleF_melt*OHF_melt;
-
-	    	moleOHCl = OHCl_melt;
-	    	moleOHF = OHF_melt;
-	    	moleClF = ClF_melt;
-
-	    	// solve equation that involves moleOH and total H2O using Cl
-	    	// k2 = Math.exp(0.641 - 2704.4/T_K);
-	    	k2 = 6.53 * Math.exp(-3100/T_K);
-
-	    	//eqn1=moleOH_melt1==2*x+(8*x+k2-2*x*k2-Math.sqrt(k2)*Math.sqrt(16*x-16*x^2+k2-4*x*k2+4*x^2*k2))/(k2-4);
-	    	//m1=solve(eqn1,x);// m is the solution of equation= total mole water in melt
-	    	m1 = eqn1(moleOH_melt1);
-	    	moleH2O_melt1 = m1;
-	    	console.log();
-	    	//moleH2O_melt1=Math.min(Math.eval(m1));// choose the smaller value of the 2 solutions; The larger solution is >50wt.//
-	    	// convert total mole water to total water in wt//
-	    	//eqn3=moleH2O_melt1 == (x/MassH2O)/(x/MassH2O+(1-x)/meanM);
-	    	//n1=solve(eqn3,x); // n is the solution of equation=mass fraction of total water in melt
-	    	n1 = eqn2(moleH2O_melt1);
-	    	MeltWater1=n1*100; // calculated using Kd(OH-Cl)
-
-	    	// row4: H2O calculated using Kd(OH-F) (2)
-	    	// solve equation that involves moleOH and total H2O using F
-	    	//eqn2=moleOH_melt2==2*x+(8*x+k2-2*x*k2-Math.sqrt(k2)*Math.sqrt(16*x-16*x^2+k2-4*x*k2+4*x^2*k2))/(k2-4);
-	    	//m2=solve(eqn2,x);
-	    	m2 = eqn1(moleOH_melt2);
-	    	moleH2O_melt2 = m2;
-	    	//moleH2O_melt2=Math.min(Math.eval(m2));
-	    	//eqn4=moleH2O_melt2 == (x/MassH2O)/(x/MassH2O+(1-x)/meanM);
-	    	//n2=solve(eqn4,x);
-	    	n2 = eqn2(moleH2O_melt2);
-	    	MeltWater2=n2*100; // calcuated using Kd(OH-F)
-
-	    	// row5: calcualted CO2 (1)
-	    	KD = 0.629;
-	    	MeltCO2_1 = MeltWater1/((H2OAp/CO2Ap)/KD)*10000;
-
-			// row6: calculated CO2 (2)
-			MeltCO2_2 = MeltWater2/((H2OAp/CO2Ap)/KD)*10000;
-
-	    	var html = '\
-	    		<div class="calculation-type">\
-					<input type="radio" name="foo" onclick="k2_1();" checked="checked">Basaltic magma<br><input type="radio" name="foo" onclick="k2_2();">Dacitic-rhyolitic magma<br><br>\
-				</div>\
-				<div class="calculation-output">\
-					<b>\
-						<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-Cl)<sub>&nbsp;(1)</sub></label><span id="MeltWater1" class="output">0</span>&ensp;<span>wt.&nbsp;%</span>\
-						<div id="missing"></div>\
-						<br>\
-						<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-F)<sub>&nbsp;(2)</sub></label><span id="MeltWater2" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>\
-					</b>\
-	    		</div>\
-	    	';
-
-	    	$("#compute_output").html(html);
-
-	    	$("#Kd_OHCl").html(Math.round(Kd_OHCl*1000)/1000);
-	    	$("#Kd_OHF").html(Math.round(Kd_OHF*10000)/10000);
-	    	$("#Kd_ClF").html(Math.round(Kd_ClF*1000)/1000);
-	    	$("#gammaOH").html(Math.round(gammaOH*100)/100);
-	    	$("#gammaF").html(Math.round(gammaF*100)/100);
-	    	$("#gammaCl").html(Math.round(gammaCl*100)/100);
-	    	$("#MeltWater1").html(Math.round(MeltWater1*10)/10);
-	    	$("#MeltWater2").html(Math.round(MeltWater2*10)/10);
-			// $("#MeltCO2_1").html(Math.round(MeltCO2_1));
-			// $("#MeltCO2_2").html(Math.round(MeltCO2_2));
-	    	$("#moleOHCl").html(Math.round(moleOHCl*100)/100);
-	    	$("#moleOHF").html(Math.round(moleOHF*100)/100);
-	    	$("#moleClF").html(Math.round(moleClF*100)/100);
-
-	    	checkMissing();
-
-	    	// location.href='hung_output.html';
-	    }else{
-	    	alert("Please fill in the Required fields!!");
-	    }
-	});
-
 	$(".Calculate").click(function(e) {
 		// required
 		var FAp = parseFloat($('#f').val());
@@ -287,12 +140,17 @@ $(function() {
 				x_f = x_f_m;
 				x_cl = x_cl_m;
 				x_oh = x_oh_m;
+				x_oh_m = 1 - (Math.round(x_f * 1000) / 1000 + Math.round(x_cl * 1000) / 1000);
+				$("#xoh_m").html(Math.round(x_oh_m * 1000) / 1000);
 			}else{
+				$("#xoh_m").html('#');
 				x_f = x_f_c;
 				x_cl = x_cl_c;
 				x_oh = x_oh_c;
 			}
 			H2O_c = (x_oh_c/2)/x_f * MASSH2O/MASSF;
+
+			x_oh_c = 1 - (Math.round(x_f * 1000) / 1000 + Math.round(x_cl * 1000) / 1000);
 
 			// Display
 			$("#ca_out").html(Math.round(nCa * 1000) / 1000);
@@ -301,7 +159,6 @@ $(function() {
 			$("#cl_out").html(Math.round(nCl * 1000) / 1000);
 			$("#xf").html(Math.round(x_f * 1000) / 1000);
 			$("#xcl").html(Math.round(x_cl * 1000) / 1000);
-			$("#xoh_m").html(Math.round(x_oh_m * 1000) / 1000);
 			$("#xoh_c").html(Math.round(x_oh_c * 1000) / 1000);
 			//$("#H2O_c").html(Math.round(H2O_c * 1000) / 1000);
 
@@ -310,6 +167,147 @@ $(function() {
 		}else {
 			alert("Please fill in the required field above!");
 		}
+	});
+
+	$(".Compute1").click(function(e) {
+		FAp  = parseFloat($('#f').val());
+		ClAp  = parseFloat($('#cl').val());
+		CO2Ap  = parseFloat($('#co2').val());
+		T  = parseFloat($('#t').val());
+		// var P  = parseFloat($('#p').val());
+		vol_co2 = parseFloat($('#co22').val());
+		cao = parseFloat($('#cao').val());
+		p2o5 = parseFloat($('#p2o5').val());
+		so3 = parseFloat($('#so3').val());
+		sio2 = parseFloat($('#sio2').val());
+		na2o = parseFloat($('#na2o').val());
+		mgo = parseFloat($('#mgo').val());
+		al2o3 = parseFloat($('#al2o3').val());
+		mno = parseFloat($('#mno').val());
+		feo = parseFloat($('#feo').val());
+		//var fe2o3 = parseFloat($('#fe2o3').val());
+		ce2o3 = parseFloat($('#ce2o3').val());
+		sro = parseFloat($('#sro').val());
+		bao = parseFloat($('#bao').val());
+		H2OAp  = parseFloat($('#h2o').val());
+
+	    if (typeof x_oh_m == "undefined"){
+	    	alert("Please Calculate first before Compute");
+	    } else if (!isNaN(parseFloat(FAp)) && !isNaN(parseFloat(ClAp)) && !isNaN(parseFloat(T)) && !isNaN(parseFloat(cao)) && !isNaN(parseFloat(p2o5))) {
+			if (isNaN(parseFloat(H2OAp))){
+				// When H2O is not measured
+				H2OAp = H2O_c;
+			}
+	    	// calculate exchange coefficients of Kd_OHCl,Kd_OHF, Kd_ClF
+	    	R=8.314; // gas constant
+	    	T_K=T+273.15; // Convert T_C to Kelvin
+	    	deltaG_ClOH = 73.1-0.034*T_K; // ERROR: k:0.002 ; b:2.7
+	    	deltaG_FOH = 94.8-0.04*T_K; // ERROR: k:0.005 ; b:6.9
+	    	Wg_ClOH=5; // calculated Wg of Cl-OH, kJ/mol
+	    	Wg_FCl=16; // calculated Wg of F-Cl, kJ/mol
+	    	Wg_FOH=7; // calculated Wg of F-OH, kJ/mol
+
+	    	// calculate mole fraction of FAp, HAp, ClAp
+	    	MassCl=35.45; // molar mass of Cl
+	    	MassF=18.998; // molar mass of Cl
+	    	MassH2O=18.015; // molar mass of h2o
+
+	    	if (isNaN(x_oh_m) || x_oh_m == 0){
+	    		x_oh = x_oh_c;
+	    	} else {
+	    		x_oh = x_oh_m;
+	    	}
+	    	// Output coefficients
+	    	Kd_OHCl= Math.exp((1000*(-deltaG_ClOH-((x_cl-x_oh)*Wg_ClOH+x_f*(Wg_FOH-Wg_FCl))))/(R*T_K));
+	    	Kd_OHF = Math.exp(1000*(-deltaG_FOH-((x_f-x_oh)*Wg_FOH+x_cl*(Wg_ClOH-Wg_FCl)))/(R*T_K));
+	    	Kd_ClF = Kd_OHF/Kd_OHCl;
+	    	gammaOH= Math.exp(1000*((x_cl*(1-x_oh)*Wg_ClOH+x_f*(1-x_oh)*Wg_FOH-x_cl*x_f*Wg_FCl))/(R*T_K));
+	    	gammaF = Math.exp(1000*((x_cl*(1-x_f)*Wg_FCl+x_oh*(1-x_f)*Wg_FOH-x_cl*x_oh*Wg_ClOH))/(R*T_K));
+	    	gammaCl= Math.exp(1000*((x_oh*(1-x_cl)*Wg_ClOH+x_f*(1-x_cl)*Wg_FCl-x_f*x_oh*Wg_FOH))/(R*T_K));
+	    	// Output volatiles in magmas
+	    	// row3: H2O calculated using Kd(OH-Cl) (1)
+	    	// calculate mole OH in melt and total H2O in wt//
+	    	OHCl_melt=(x_oh/x_cl)/Kd_OHCl; // melt OH/Cl in molar ratios
+	    	OHF_melt=(x_oh/x_f)/Kd_OHF; // melt OH/F in molar ratios
+	    	ClF_melt = (x_cl/x_f)/Kd_ClF; // melt Cl/F in molar ratios
+
+	    	moleOHCl = OHCl_melt;
+	    	moleOHF = OHF_melt;
+	    	moleClF = ClF_melt;
+
+	    	$("#Kd_OHCl").html(Math.round(Kd_OHCl*1000)/1000);
+	    	$("#Kd_OHF").html(Math.round(Kd_OHF*10000)/10000);
+	    	$("#Kd_ClF").html(Math.round(Kd_ClF*1000)/1000);
+	    	$("#gammaOH").html(Math.round(gammaOH*100)/100);
+	    	$("#gammaF").html(Math.round(gammaF*100)/100);
+	    	$("#gammaCl").html(Math.round(gammaCl*100)/100);
+
+	    	$("#moleOHCl").html(Math.round(moleOHCl*100)/100);
+	    	$("#moleOHF").html(Math.round(moleOHF*100)/100);
+	    	$("#moleClF").html(Math.round(moleClF*100)/100);
+
+	    	// location.href='hung_output.html';
+	    }else{
+	    	alert("Please fill in the Required fields!!");
+	    }
+	});
+
+	$(".Compute2").click(function(e) {
+		if (typeof x_oh_m == "undefined"){
+			alert("Please Calculate first before Compute");
+		} else if (!isNaN(parseFloat(FAp)) && !isNaN(parseFloat(ClAp)) && !isNaN(parseFloat(T)) && !isNaN(parseFloat(cao)) && !isNaN(parseFloat(p2o5))) {
+			MeltF = parseFloat($('#f2').val());
+			MeltCl  = parseFloat($('#cl2').val());
+
+			meanM=33; // molar mass of studied melt
+			moleCl_melt =((MeltCl/10000)/MassCl)/(100/meanM); // mole Cl in melt (input Cl in ppm)
+			moleOH_melt1 = moleCl_melt*OHCl_melt
+			moleF_melt =((MeltF/10000)/MassF)/(100/meanM); // mole F in melt (input F in ppm)
+			moleOH_melt2 = moleF_melt*OHF_melt;
+
+	    	// solve equation that involves moleOH and total H2O using Cl
+	    	// k2 = Math.exp(0.641 - 2704.4/T_K);
+	    	k2 = 6.53 * Math.exp(-3100/T_K);
+
+	    	//eqn1=moleOH_melt1==2*x+(8*x+k2-2*x*k2-Math.sqrt(k2)*Math.sqrt(16*x-16*x^2+k2-4*x*k2+4*x^2*k2))/(k2-4);
+	    	//m1=solve(eqn1,x);// m is the solution of equation= total mole water in melt
+	    	m1 = eqn1(moleOH_melt1);
+	    	moleH2O_melt1 = m1;
+	    	console.log();
+	    	//moleH2O_melt1=Math.min(Math.eval(m1));// choose the smaller value of the 2 solutions; The larger solution is >50wt.//
+	    	// convert total mole water to total water in wt//
+	    	//eqn3=moleH2O_melt1 == (x/MassH2O)/(x/MassH2O+(1-x)/meanM);
+	    	//n1=solve(eqn3,x); // n is the solution of equation=mass fraction of total water in melt
+	    	n1 = eqn2(moleH2O_melt1);
+	    	MeltWater1=n1*100; // calculated using Kd(OH-Cl)
+
+	    	// row4: H2O calculated using Kd(OH-F) (2)
+	    	// solve equation that involves moleOH and total H2O using F
+	    	//eqn2=moleOH_melt2==2*x+(8*x+k2-2*x*k2-Math.sqrt(k2)*Math.sqrt(16*x-16*x^2+k2-4*x*k2+4*x^2*k2))/(k2-4);
+	    	//m2=solve(eqn2,x);
+	    	m2 = eqn1(moleOH_melt2);
+	    	moleH2O_melt2 = m2;
+	    	//moleH2O_melt2=Math.min(Math.eval(m2));
+	    	//eqn4=moleH2O_melt2 == (x/MassH2O)/(x/MassH2O+(1-x)/meanM);
+	    	//n2=solve(eqn4,x);
+	    	n2 = eqn2(moleH2O_melt2);
+	    	MeltWater2=n2*100; // calcuated using Kd(OH-F)
+
+	    	// row5: calcualted CO2 (1)
+	    	KD = 0.629;
+	    	MeltCO2_1 = MeltWater1/((H2OAp/CO2Ap)/KD)*10000;
+
+			// row6: calculated CO2 (2)
+			MeltCO2_2 = MeltWater2/((H2OAp/CO2Ap)/KD)*10000;
+
+	    	// $("#compute_output").html(html);
+
+	    	$("#MeltWater1").html(Math.round(MeltWater1*10)/10);
+	    	$("#MeltWater2").html(Math.round(MeltWater2*10)/10);
+			// $("#MeltCO2_1").html(Math.round(MeltCO2_1));
+			// $("#MeltCO2_2").html(Math.round(MeltCO2_2));
+	    	checkMissing();
+	    }
 	});
 })
 
@@ -571,8 +569,8 @@ function k2_1() {
 
 	$("#MeltWater1").html(Math.round(MeltWater1*10)/10);
 	$("#MeltWater2").html(Math.round(MeltWater2*10)/10);
-	$("#MeltCO2_1").html(Math.round(MeltCO2_1));
-	$("#MeltCO2_2").html(Math.round(MeltCO2_2));
+	// $("#MeltCO2_1").html(Math.round(MeltCO2_1));
+	// $("#MeltCO2_2").html(Math.round(MeltCO2_2));
 
 	checkMissing();
 }
@@ -613,22 +611,38 @@ function k2_2() {
 
 	$("#MeltWater1").html(Math.round(MeltWater1*10)/10);
 	$("#MeltWater2").html(Math.round(MeltWater2*10)/10);
-	$("#MeltCO2_1").html(Math.round(MeltCO2_1));
-	$("#MeltCO2_2").html(Math.round(MeltCO2_2));
+	// $("#MeltCO2_1").html(Math.round(MeltCO2_1));
+	// $("#MeltCO2_2").html(Math.round(MeltCO2_2));
 
 	checkMissing();
 }
 
 function checkMissing() {
-	if (isNaN(MeltF) || isNaN(MeltCl)){
+	if (isNaN(MeltF) && isNaN(MeltCl)){
 		$("#missing").html("Check the input box(es) marked in red color");
 		$("#f2").css("border", "2px solid red");
 		$("#cl2").css("border", "2px solid red");
-		$("#MeltWater1").html("Nil");
-		$("#MeltWater2").html("Nil");
-	} else{
+		$("#MeltWater1").html("#");
+		$("#MeltWater2").html("#");
+	} else if (isNaN(MeltCl)) {
+		$("#missing").html("");
 		$("#f2").css("border", "");
 		$("#cl2").css("border", "");
+		$("#MeltWater1").html("#");
+	} else if (isNaN(MeltF)) {
 		$("#missing").html("");
+		$("#f2").css("border", "");
+		$("#cl2").css("border", "");
+		$("#MeltWater2").html("#");
+	} else{
+		$("#missing").html("");
+		$("#f2").css("border", "");
+		$("#cl2").css("border", "");
 	}
+
+	// if (MeltCl > 20) {
+	// 	$("#MeltWater1").html("#");
+	// } else if (MeltF > 20)
+	// 	$("#MeltWater2").html("#");
+	// }
 }
