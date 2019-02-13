@@ -5,166 +5,7 @@
 	<script charset="UTF-8" src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.1.6/d3.min.js"></script>
 	<script charset="utf-8" src="script/jquery-3.3.1.min.js"></script>
 	<script charset="utf-8" src="script/ApThermo.js"></script>
-	<style>
-		body{
-			max-width: 960px;
-			min-width: 960px;
-			margin: 0px auto;
-			-webkit-text-size-adjust: auto;
-		}
-		body *{
-			font-family: Ubuntu;
-		}
-		h2.Apatite_header{
-			color: FireBrick;
-			text-align: center;
-		}
-		.Instruction{
-			border: 1.5px solid black;
-			display: inline-block;
-			padding: 10px;
-			max-width: 100%;
-		}
-		.col{
-			float: left;
-			width: 500px;
-		}
-		.col span{
-		    display: inline-block;
-		    width: 40px;
-		}
-		.input:after{
-		    content: "";
-		    display: table;
-		    clear: both;
-		}
-		label{
-		    display: inline-block;
-		    clear: left;
-		    width: 50px;
-		}
-		input{
-			font-size: 12px;
-			width: 38px;
-			border-radius: 5px;
-			text-align: right;
-			padding-right: 2px;
-			font-family: Arial;
-		}
-		button.Compute{
-			font-size: 20px;
-			background: #3e54a5;
-			cursor: pointer;
-			padding: 5px;
-			color: white;
-		}
-		button.Calculate{
-			position: relative;
-			font-size: 20px;
-			background: #bf9fc7;
-			cursor: pointer;
-			padding: 5px;
-			color: white;
-			z-index: 2;
-		}
-		sup{
-			font-size: 10px;
-		}
-		#error{
-			color: red;
-		}
-		/*Ternary Plot*/
-		a{
-			font-family: sans-serif;
-			color: #DB7365;
-			padding: 0.3rem;
-		}
-		a:hover{
-			background-color: #DB7365;
-			color: #fff1e0;
-		}
-		line.tick {
-			stroke-width: 0.5;
-		}
-
-		line.minor-tick {
-			stroke-width: 1;
-			stroke-opacity:0.1;
-		}
-
-		.a-axis{
-			stroke: #333;
-		}
-
-		.b-axis{
-			stroke: #333;
-		}
-
-		.c-axis{
-			stroke: #333;
-		}
-
-		.axis-title{
-			font-family: sans-serif;
-			font-size: 1.5rem;
-		}
-
-		text.tick-text {
-			font-family: sans-serif;
-			font-weight: lighter;
-			font-size: 1rem;
-			fill: #333;
-			stroke:none;
-		}
-
-		circle {
-			fill: #fff1e0;
-			stroke: #DB7365;
-			stroke-width: 2px;
-		}
-		span.output{
-			border: 2px solid #9999;
-			border-radius: 5px;
-			border-style: inset;
-			padding-right: 2px;
-			display: inline-block;
-			width: 38px;
-			font-weight: normal;
-			font-family: Arial;
-			font-size: 12px;
-			text-align: right;
-		}
-		.output:after{
-		    content: "";
-		    display: table;
-		    clear: both;
-		}
-		.zone{
-			font-size: 18px;
-		}
-		hr{
-			margin-bottom: 15px;
-			width: 100%;
-			border: 1px dashed;
-		}
-		#compute_output{
-			position: relative;
-        }
-		.calculation-type{
-		}
-		#plot{
-			position: absolute;
-			right: 0px;
-			bottom: -35px;
-			z-index: 1;
-		}
-		#missing{
-			color: red;
-			display: inline-block;
-			float: right;
-			font-weight: normal;
-		}
-	</style>
+	<link rel="stylesheet" href="style.css">
 	<title>Apatite Thermodynamic Model</title>
 </head>
 <body style="padding-left:10px;">
@@ -181,6 +22,7 @@
 	<h3>1. Calculating chemical formula of apatite:</h3>
 	<b style="color:red">Enter the measured apatite compositions<br></b>
 	<i>Boxes marked as "required" need to be filled in for calculation, whereas those marked as "optional" can be left as empty if the values are unknown.</i><p>
+
 	<div class="input">
 		<div class="col" style="max-width:30%;padding-left:1%">
 			<i style="color:red">Required:</i>
@@ -214,27 +56,35 @@
 			<sup>*</sup>If H<sub>2</sub>O in apatite was not directly measured, leave this box empty, so that our model will calculate it based on stoichiometry, assuming that only F, Cl and OH occupy the anion site.
 		</i></small></p>
 	</div>
-	<div style="border:1.5px solid pink;padding:10px;max-width:100%;position:relative">
-		<button class="Calculate"><i><b>Calculate chemical formula of apatite</b></i></button><p>
+
+	<div class="pink-border-box">
+		<div class="ternary-background"><img src="./ternary_background.jpg" alt=""></div>
+		<div class="ternary-legend"><img src="./ternary_legend.jpg" alt=""></div>
 		<div id="plot"></div>
-		<span>Chemical formula: Ca<sub>10</sub>(PO<sub>4</sub>)<sub>6</sub>X<sub>2</sub></span><br><span>(Using 26 Oxygen)</span><br>
-		<p>
-		<b><label style="width:110px">Ca (a.p.f.u)</label><span id="ca_out" class="output">0</span></b><br>
-		<b><label style="width:110px">P (a.p.f.u)</label><span id="p_out" class="output">0</span></b><br>
-		<b><label style="width:110px">F (a.p.f.u)</label><span id="f_out" class="output">0</span></b><br>
-		<b><label style="width:110px">Cl (a.p.f.u)</label><span id="cl_out" class="output">0</span></b><br>
-		<br><span>Mole Fraction</span><br>
-		<b><label style="width:110px">X<sub>F</sub></label><span id="xf" class="output">0</span></b><br>
-		<b><label style="width:110px">X<sub>Cl</sub></label><span id="xcl" class="output">0</span></b><br>
-		<b><label style="width:110px">X<sub>OH</sub></label><span id="xoh_m" class="output">0</span></b><br>
-		<b><label style="width:110px">X<sub>OH</sub>(calc)<sup>**</sup></label><span id="xoh_c" class="output">0</span></b><br>
-		<!--<b><label style="width:110px">H<sub>2</sub>O(calc)<sup>**</sup></label><span id="H2O_c" class="output">0</span></b><p>-->
-		<p>
-		<small><i><sup>**</sup>Calculated based on stoichimeotry (e.g Deer et al., 2013)</i></small>
-		<br><br><br><br><br><br>
+		<div class="calculate-chemical">
+			<button class="Calculate"><i><b>Calculate chemical formula</b></i></button><p>
+			<span>Chemical formula: Ca<sub>10</sub>(PO<sub>4</sub>)<sub>6</sub>X<sub>2</sub></span><br><span>(Using 26 Oxygen)</span><br>
+			<br>
+			<p>
+			<b><label style="width:110px">Ca (a.p.f.u)</label><span id="ca_out" class="output">0</span></b><br>
+			<b><label style="width:110px">P (a.p.f.u)</label><span id="p_out" class="output">0</span></b><br>
+			<b><label style="width:110px">F (a.p.f.u)</label><span id="f_out" class="output">0</span></b><br>
+			<b><label style="width:110px">Cl (a.p.f.u)</label><span id="cl_out" class="output">0</span></b><br>
+			<br><br>
+			<br><span>Mole Fraction</span><br><br>
+			<b><label style="width:110px">X<sub>F</sub></label><span id="xf" class="output">0</span></b><br>
+			<b><label style="width:110px">X<sub>Cl</sub></label><span id="xcl" class="output">0</span></b><br>
+			<b><label style="width:110px">X<sub>OH</sub></label><span id="xoh_m" class="output">0</span></b><br>
+			<b><label style="width:110px">X<sub>OH</sub>(calc)<sup>**</sup></label><span id="xoh_c" class="output">0</span></b><br><br>
+			<!--<b><label style="width:110px">H<sub>2</sub>O(calc)<sup>**</sup></label><span id="H2O_c" class="output">0</span></b><p>-->
+			<small><i><sup>**</sup>Calculated based on stoichimeotry (e.g Deer et al., 2013)</i></small>
+		</div>
+		<br><br><br><br><br><br><br><br><br><br>
 	</div>
+
 	<p>
-	<div class="input" style="border:1.5px solid skyblue;padding:10px;max-width:100%;">
+
+	<div class="input" style="border:1.5px solid skyblue;padding:10px;padding-left:15px;max-width:100%;">
 		<h3>2. Calculating exchange coefficients and volatile ratios in melt using known temperature</h3>
 			<b><label style="width:110px">Temperature</label><input id="t" type="text" value="950">&nbsp;<sup>o</sup>C&emsp;&ensp;&nbsp;</b>&nbsp;<br><br>
 			<!-- <b><label style="width:110px">P</label><input id="p" type="text" value="200" required>&nbsp;MPa&ensp;&nbsp;</b><p> -->
@@ -267,7 +117,8 @@
 			</small></b>
 		</div>
 	</div>
-	<div style="border:1.5px solid green;padding:10px;max-width:100%;margin-top: 20px;">
+
+	<div style="border:1.5px solid green;padding:10px;padding-left:15px;max-width:100%;margin-top: 20px;">
 		<h3>3. Calculating H<sub>2</sub>O in melt using known melt Cl and/or F concentrations</h3>
 		<p>
 		<i>Fill in at least one box below:</i><br>
@@ -280,24 +131,25 @@
 		<div style="clear:both"></div>
 		<div id="compute_output">
     		<div class="calculation-type">
-				<input type="radio" name="foo" onclick="k2_1();" checked="checked">Basaltic magma<sup>†</sup><br>
-				<input type="radio" name="foo" onclick="k2_2();">Dacitic-rhyolitic magma<sup>††</sup><br><br>
+				<input type="radio" name="foo" onclick="k2_1();" checked="checked">Dacitic-rhyolitic magma<sup>†</sup><br>
+				<input type="radio" name="foo" onclick="k2_2();">Basaltic magma<sup>††</sup><br><br>
 			</div>
 			<div class="calculation-output">
 				<b>
-					<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-Cl)</label><span id="MeltWater1" class="output">0</span>&ensp;<span>wt.&nbsp;%</span>
+					<label style="width:379px">H<sub>2</sub>O calculated using Cl</label><span id="MeltWater1" class="output">0</span>&ensp;<span>wt.&nbsp;%</span>
 					<div id="missing"></div>
 					<br>
-					<label style="width:379px">H<sub>2</sub>O calculated using K<sub>D</sub>(OH-F)</label><span id="MeltWater2" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>
+					<label style="width:379px">H<sub>2</sub>O calculated using F</label><span id="MeltWater2" class="output">0</span>&ensp;<span>wt.&nbsp;%</span><br>
 				</b>
     		</div>
-			<br>
-			<small class="reference"><i>
-				<span><sup>†</sup> Lesne et al. (2010)</span>&emsp;&emsp;&emsp;&emsp;
-				<span><sup>††</sup> Zhang (1999)</span>
-			</i></small>
+			<p class="reference">
+				<small class="reference"><i>
+					Water speciation models from Lesne et al. (2010) <sup>†</sup> and Zhang (1999) <sup>††</sup>
+				</i></small>
+			</p>
 		</div>
 	</div>
+
 	<p>
 	<!-- <a id="doc" href="">Documents on web services that support this page</a><br> -->
 	<span style="font-size:18px;">If you encounter any problem using this webpage, please email me: weiranli1991@gmail.com</span>
