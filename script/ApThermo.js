@@ -201,8 +201,8 @@ $(function() {
 	    	// calculate exchange coefficients of Kd_OHCl,Kd_OHF, Kd_ClF
 	    	R=8.314; // gas constant
 	    	T_K=T+273.15; // Convert T_C to Kelvin
-	    	deltaG_ClOH = 73.1-0.034*T_K; // ERROR: k:0.002 ; b:2.7
-	    	deltaG_FOH = 94.8-0.04*T_K; // ERROR: k:0.005 ; b:6.9
+	    	deltaG_ClOH = 72.9-0.034*T_K; // ERROR: k:0.002 ; b:2.7
+	    	deltaG_FOH = 94.6-0.04*T_K; // ERROR: k:0.005 ; b:6.9
 	    	Wg_ClOH=5; // calculated Wg of Cl-OH, kJ/mol
 	    	Wg_FCl=16; // calculated Wg of F-Cl, kJ/mol
 	    	Wg_FOH=7; // calculated Wg of F-OH, kJ/mol
