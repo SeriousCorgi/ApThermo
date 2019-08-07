@@ -170,7 +170,7 @@ hr{
 	z-index: 1;
 }
 
-.ternary-background {
+/* .ternary-background {
 	position: absolute;
 	right: 45px;
 	bottom: 197px;
@@ -179,7 +179,7 @@ hr{
 .ternary-background > img {
 	z-index: 0;
 	max-width: 408px;
-}
+} */
 
 .ternary-legend {
 	position: absolute;
