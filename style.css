@@ -166,7 +166,7 @@ hr{
 .pink-border-box > #plot {
 	position: absolute;
 	right: 0px;
-	bottom: 120px;
+	bottom: 0px;
 	z-index: 1;
 }
 
