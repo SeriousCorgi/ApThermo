@@ -1,0 +1,433 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML; 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<title>PHP text hit counter - README</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* Style sheet and XHTML code
+Author: Mauricio Samy Silva http://www.maujor.com/ A Web Standard evangelist site
+City: Rio de Janeiro - Brazil
+Contact: maujorcss[at]maujor[dot]com
+Date: 2006-05-11
+*/
+body
+{
+        margin:5px 0;
+        padding:0;
+        background:#eee;
+        color: black;
+        font : 68.8%/1.5 Verdana, Geneva, Arial, Helvetica, sans-serif;
+        text-align:center;
+}
+
+#wrapper
+{
+        width:700px;
+        background:#fff;
+        margin:0 auto;
+        text-align:left;
+        border:1px solid #ccc;
+        padding:10px 20px;
+}
+
+h1 {font-size:1.5em;}
+
+h2
+{
+        font-size:1.2em;
+        border-top:1px solid #999;
+        padding-top:1.8em;
+}
+
+h2.title
+{
+        font-size:1.2em;
+        border-top:1px solid #999;
+        padding-top:1.8em;
+        color: green;
+}
+
+h3 {font-size:1.0em;}
+span.dest {color:#f00;}
+span.example {color:#ff9933;}
+span.tip {color:#008000; font-weight:bold;}
+
+p
+{
+        color : black;
+        font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+        font-size: 1.0em;
+}
+
+address
+{
+        font-weight:bold;
+        font-style:normal;
+}
+
+ul.nobullets
+{
+        margin:0 0 1.0em;
+        padding:0;
+        list-style:none;
+}
+
+ol li {margin-bottom:1.0em;}
+
+samp, code
+{
+        font-size:1.3em;
+        font-weight:bold;
+}
+
+a:hover
+{
+        color : red;
+        background:#ccc;
+        text-decoration : none;
+}
+
+table#installation
+{
+        border-collapse:collapse;
+        margin: 5px 15px 10px -25px;
+        border: 2px solid #999;
+}
+
+table#installation thead
+{
+        text-align:center;
+        text-transform:uppercase;
+}
+
+table#installation tr td, table#installation tr th
+{
+        padding: 2px 5px;
+        border: 1px solid #ccc;
+}
+
+table#installation tr th
+{
+        border-bottom-width:2px;
+        border-bottom-color:#999;
+}
+
+table#installation tr td var
+{
+        font-weight:bold;
+        font-style:normal;
+}
+
+table#installation tr.odd
+{
+        background: #fafafa;
+}
+
+div.error
+{
+        border: 1px solid #cd0a0a;
+        background: #fef1ec;
+        color: #cd0a0a;
+        padding-left:10px;
+        padding-right:5px;
+}
+
+div.success
+{
+        border: 1px solid #18760f;
+        background: #e9ffdb;
+        color: #363636;
+        padding-left:10px;
+        padding-right:5px;
+}
+
+div.notice
+{
+        border: 1px solid #fcefa1;
+        background: #fbf9ee;
+        color: #363636;
+        padding-left:10px;
+        padding-right:5px;
+}
+
+span.code
+{
+        background-color: #FFFFCC;
+}
+</style>
+</head>
+
+<body>
+<div id="wrapper">
+<div id="main">
+<h1><span class="dest">PHPCount</span> -
+PHP text hit counter</h1>
+
+<ul class="nobullets">
+<li>Version: 1.6.1 from 4th January 2015</li>
+<li>Developed by: Klemen Stirn</li>
+<li><a href="http://www.phpjunkyard.com/php-text-hit-counter.php" target="_blank">PHP text hit counter</a></li>
+<li><a href="http://www.phpjunkyard.com" target="_blank">PHP Scripts from PHPJunkyard.com</a></li>
+</ul>
+
+<h2>INDEX</h2>
+
+<ul class="nobullets">
+    <li><a href="#install"><b>Install Text hit counter</b></a></li>
+    <li><a href="#usage">Using hit counter</a></li>
+    <li><a href="#unique">Counting unique hits</a></li>
+    <li><a href="#thousands">Formatting thousands</a></li>
+    <li><a href="#upgrade">Upgrading from old versions</a></li>
+    <li><a href="#help">HELP and Troubleshooting</a></li>
+    <li><a href="#changelog">Changelog</a></li>
+</ul>
+
+<h2 id="acknowledgement">&raquo; ACKNOWLEDGEMENT</h2>
+
+<p>Please support free PHP script development by <a href="http://www.phpjunkyard.com/about/link2us.php">linking to us</a> or <a href="http://www.phpjunkyard.com/about/donate.php">sending a donation</a>. Thank you!<br />&nbsp;</p>
+
+<h2 id="install">&raquo; Install Text hit counter</h2>
+
+<div class="error">
+<p style="font-weight:bold">Please take 5 minutes to read the installation instructions carefully and completely! This will ensure a proper and easy installation.</p>
+</div>
+
+<p style="font-weight:bold">Installation steps:</p>
+
+<ol>
+<li><p>Connect with FTP to the <i>public folder</i> of your server where the rest of your Web site is.</p>
+<p><span class="tip">TIP:</span> The public folder is usually called &quot;<b>public_html</b>&quot;, &quot;www&quot;, &quot;site&quot; or &quot;htdocs&quot;.</p>
+<p><span class="tip">TIP:</span> Learn how to FTP files, read my simple <a href="http://www.phpjunkyard.com/tutorials/ftp-chmod-tutorial.php">FTP and CHMOD tutorial</a></p>
+</li>
+<li><p>Create a new folder where you will install counter. Name it anything you like, for example &quot;counter&quot;.<br />
+Example: /public_html/counter<br />
+Corresponding URL: http://example.com/counter</p></li>
+<li><p>Upload all counter files and folders to your server in ASCII mode.</p>
+<p><span class="tip">TIP:</span> Most FTP clients will select the proper transfer mode automatically.</li>
+<li>
+<p>Test the counter by opening <b>counter.php?page=test</b> in your browser, for example:<br />
+<span class="code">http://example.com/counter/counter.php?page=test</span></p>
+<p>Your browser should show something like<br /><b>document.write('1');</b></p>
+<p>Got an error message instead? See <a href="#help">HELP and Troubleshooting</a> below.<br />&nbsp;</p>
+</li>
+</ol>
+
+<h2 id="usage">&raquo; Using PHP text hit counter</h2>
+
+<ol>
+<li><p>Create an empty text file for each page you want to count visits on.</p>
+<p>Use only letters (a-z, A-Z), digits (0-9), dots &quot;.&quot;, underscores &quot;_&quot; and hyphens &quot;-&quot;, like this:</p>
+<p>page1.txt<br />index.txt<br />some_long_name.txt<br />buy-now.txt</p></li>
+
+<li>Upload the text files into the <b>logs</b> folder to your server.</li>
+
+<li>To start counting visitors place this code in your web page:</p>
+
+<span class="code">&lt;script type=&quot;text/javascript&quot; src=&quot;http://example.com/counter/counter.php?page=<span class="dest">test</span>&quot;&gt;&lt;/script&gt;</span>
+
+<p>Change example.com to the URL address of counter.php on your server.</p>
+
+<p>Change <span class="dest">test</span> to the name of a text file created in Step 1 (without &quot;.txt&quot;).</p>
+
+<p><span class="tip">TIP:</span> Not sure how to paste Javascript code into your website? See this tutorial:<br />
+<a href="http://www.phpjunkyard.com/tutorials/cut-paste-code.php" target="_blank">Cut and paste code into HTML document</a></p>
+</li>
+
+<li><p>Open your website, the count should display where the Javascript code has been pasted.<br />&nbsp;</p></li>
+</ol>
+
+
+<h2 id="unique">&raquo; Counting UNIQUE hits</h2>
+
+<p>To count unique visits only, open file <b>counter.php</b> in a plain text editor.</p>
+
+<p>Find this line:</p>
+
+<span class="code">$count_unique = <b>0</b>;</span>
+
+<p>Change it to:</p>
+
+<span class="code">$count_unique = <b>1</b>;</span>
+
+
+<p>You can control how many hours a visitor is considered as unique by changing value of line:</p>
+
+<span class="code">$unique_hours = 24;</span>
+
+<p>The default value will count visitor as unique only once per 24 hours. To count as unique once per 12 hours you would change the line to:</p>
+
+<span class="code">$unique_hours = 12;</span>
+
+<p><b>Save changes and upload the modified counter.php file to your server.</b><br />&nbsp;</p>
+
+
+<h2 id="zeropadding">&raquo; Zero-padding (minimum digits to display)</h2>
+
+<p>Want your counter to display a minimum number of digits? For example
+instead of <b>123</b> show <b>00123</b>?</p>
+
+<p>No problem, open file <b>counter.php</b> in a plain
+text editor like Notepad and find line:</p>
+
+<span class="code">$min_digits = 0;</span>
+
+<p>Change <b>0</b> to the minimum number of digits you wish to display. To display minimum 5 digits set it to:</p>
+
+<span class="code">$min_digits = <b>5</b>;</span>
+
+<p>To disable zero-padding simply change $min_digits back to 0</p>
+
+<p><b>Save changes and upload the modified counter.php file to your server.</b><br />&nbsp;</p>
+
+
+<h2 id="thousands">&raquo; Formating thousands</h2>
+
+<p>By default, counter will separate thousands with a comma, for example:<br />
+1<b>,</b>999<b>,</b>999</p>
+
+<p>To use a different thousands separator, modify this variable inside counter.php:</p>
+
+<span class="code">$thousands_separator = ',';</span>
+
+<p>Some examples:</p>
+
+<p><span class="code">$thousands_separator = '.';</span><br />
+Will show: 1<b>.</b>999<b>.</b>999</p>
+
+<p><span class="code">$thousands_separator = ' ';</span><br />
+Will show: 1<b> </b>999<b> </b>999</p>
+
+<p><span class="code">$thousands_separator = '';</span><br />
+Will show: 1999999</p>
+
+<p><b>Save changes and upload the modified counter.php file to your server.</b><br />&nbsp;</p>
+
+
+<h2 id="upgrade">&raquo; Upgrading from old versions</h2>
+
+<div class="error">
+<p style="font-weight:bold">Please take 5 minutes to read the upgrade instructions carefully and completely! This will ensure a proper and easy installation.</p>
+</div>
+
+<p><b>From version 1.3, 1.4, 1.5 and 1.6</b></p>
+
+<ol>
+<li>Upload the new counter.php file to your server</li>
+</ol>
+
+<p><b>From version 1.0, 1.1 or 1.2</b></p>
+
+<ol>
+<li>Rename all files inside &quot;logs&quot; from name.<b>log</b> to name.<b>txt</b></li>
+<li>Upload the new counter.php file to your server<br />&nbsp;</li>
+</ol>
+
+<h2 id="help">&raquo; HELP and Troubleshooting</h2>
+
+<h3>1. What is CHMOD and FTP?</h3>
+
+<p>I prepared a simple <a href="http://www.phpjunkyard.com/tutorials/ftp-chmod-tutorial.php">FTP and CHMOD tutorial</a> that will help you FTP files to your server and set correct CHMOD settings.<br />&nbsp;</p>
+
+
+<h3>2. ERROR: Not writable. PHP needs permission to write to file logs/test.txt</h3>
+
+<p>PHP does not have permission to read or write to a log file.</p>
+
+<p>On Linux servers CHMOD log files to 666 (rw-rw-rw-).</p>
+
+<p>On Windows IIS servers give <i>Internet Guest Account</i> (IUSR) permission to modify, write and read log files.</p>
+
+<p>If this error persists, ask your hosting company to set correct file permissions.<br />&nbsp;</p>
+
+
+<h3>3. ERROR: The counter.php file must be called with a ?page=PAGEID parameter</h3>
+
+<p>Your are missing <b>?page=PAGEID</b> in your Javascript code behind counter.php, see <a href="#usage">Using hit counter</a>.<br />&nbsp;</p>
+
+
+<h3>4. ERROR: Log file not found.</h3>
+
+<p>The script can't find your log file. A few things to check:</p>
+
+<ol>
+<li>Did you create an empty text file? If you are calling the script with <i>counter.php?page=<b>mypage</b></i>
+you need to have an empty text file called <b>mypage.txt</b> inside your &quot;logs&quot;
+folder!</li>
+
+<li>File names are CaSe SeNSiTiVe on most servers! MYPAGE.TXT is not the same
+as mypage.txt. Make sure your file name is in the correct case.</li>
+
+<li>Did you use any special characters in your file name? Try naming the files
+only with letters (a-zA-Z) and digits (0-9).<br />&nbsp;</li>
+</ol>
+
+<h3>5. I am still having problems!</h3>
+
+<p>Search the <a href="http://developers.phpjunkyard.com">Support forum</a> (username: <b>php</b> password: <b>php</b>)<br />&nbsp;</p>
+
+
+<h2 id="other">&raquo; Stay updated!</h2>
+
+<p>Join my FREE newsletter and you will be notified about new scripts, new versions of the existing scripts and other important news from PHPJunkYard.<br />
+<a href="http://www.phpjunkyard.com/newsletter.php" target="_blank">Click here for more info</a><br />&nbsp;</p>
+
+<h2>&raquo; Please rate this script</h2>
+
+<p>If you like this script please rate it or even write a review at:</p>
+
+<p><a href="http://php.resourceindex.com/detail/05193.html" target="_new">Rate this Script @ The PHP Resource Index</a></p>
+
+<p><a href="http://www.hotscripts.com/Detailed/36871.html" target="_blank">Rate this Script @ Hot Scripts</a><br />&nbsp;</p>
+
+<h2>&raquo; Get more useful FREE scripts!</h2>
+
+<p>Looking for more <a href="http://www.phpjunkyard.com" target="_blank">PHP scripts</a>? Here is a list of PHPJunkyard FREE scripts:</p>
+
+<ul>
+<li><a href="http://www.hesk.com" target="_blank">Help Desk Software</a></li>
+<li><a href="http://www.phpjunkyard.com/php-click-counter.php" target="_blank">Click and download counter</a></li>
+<li><a href="http://www.phpjunkyard.com/php-link-manager.php" target="_blank">Reciprocal links manager</a></li>
+<li><a href="http://www.phpjunkyard.com/php-guestbook-script.php" target="_blank">Guestbook</a></li>
+<li><a href="http://www.phpjunkyard.com/php-message-board.php" target="_blank">Message board</a></li>
+<li><a href="http://www.phpjunkyard.com/php-text-hit-counter.php" target="_blank">Text hit counter</a> (this script)</li>
+<li><a href="http://www.phpjunkyard.com/php-graphical-hit-counter.php" target="_blank">Graphical hit counter</a></li>
+<li><a href="http://www.phpjunkyard.com/random-image.php" target="_blank">Random image</a></li>
+<li><a href="http://www.phpjunkyard.com/random-text.php" target="_blank">Random text</a><br />&nbsp;</li>
+</ul>
+
+<h2 id="changelog">&raquo; CHANGELOG</h2>
+
+<p><b>Changes in 1.6.1</b><br />
+- set correct MIME type for servers sending nosniff header</p>
+
+<p><b>Changes in 1.6</b><br />
+- fixed missing quote in example code</p>
+
+<p><b>Changes in 1.5</b><br />
+- added thousands separator</p>
+
+<p><b>Changes in 1.4</b><br />
+- greatly improved reliability of counter on busy websites in multi-threaded environment<br />
+- added headers to prevent browser caching</p>
+
+<p><b>Changes in 1.3</b><br />
+- fixed a bug with counting unique visits over several pages</p>
+
+<p><b>Changes in 1.2</b><br />
+- improved input parameter checking<br />
+- added file locking<br />
+- added zero-padding option</p>
+
+<p><b>Changes in 1.1</b><br />
+- added support for counting unique hits<br />
+- no more automatic file creation (for security reasons)<br />
+- removed referrer check (not really needed anymore)<br />&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p style="text-align:center">&copy; Copyright <a href="http://www.phpjunkyard.com">Free PHP Scripts</a> 2004-2015. All rights reserved.</p>
+
+</div>
+</div>
+</body>
+</html>

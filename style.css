@@ -1,7 +1,11 @@
-body{
+body {
+	margin:0 !important;
+}
+body div.body-wrapper{
 	max-width: 960px;
 	min-width: 960px;
 	margin: 0px auto;
+	padding-left:10px;
 	-webkit-text-size-adjust: auto;
 }
 body *{
@@ -195,4 +199,17 @@ hr{
 .reference {
 	padding-bottom: 0;
 	margin-bottom: 0;
+}
+
+body div.footer-wrapper{
+	background-color: #ccc;
+    font-size: 18px;
+    line-height: 1.6em;
+}
+
+body div.footer-wrapper > div.info {
+	max-width: 960px;
+	min-width: 960px;
+	margin: 0px auto;
+	padding-left:10px;
 }
