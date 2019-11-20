@@ -40,7 +40,7 @@ http://www.phpjunkyard.com/about/donate.php
 ////////////////////////////////////////////////////////////////////////////////
 
 // Count unique visitors? 1 = YES, 0 = NO
-$count_unique = 1;
+$count_unique = 0;
 
 // Number of hours a visitor is considered as "unique"
 $unique_hours = 24;
